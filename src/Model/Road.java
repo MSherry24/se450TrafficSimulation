@@ -1,18 +1,44 @@
-package Model;
+package model;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Road {
 	
-	private List<Car> carsOnThisRoad;
+	private ArrayList<Vehicle> vehiclesOnThisRoad = new ArrayList<Vehicle>();
+	private Double _roadLength;
 	
-	public Road() {
-		
+	
+	public Road(Double roadLength) {
+		vehiclesOnThisRoad = new ArrayList<Vehicle>();
+		this._roadLength = roadLength;
 	}
 	
-	public void add(Car carToAdd) {
-		if (carToAdd == null)  throw (new IllegalArgumentException());
-		carsOnThisRoad.add(carToAdd);
+	public void addVehicle(Vehicle vehicleToAdd) {
+		if (vehicleToAdd == null)  throw (new IllegalArgumentException());
+		vehiclesOnThisRoad.add(vehicleToAdd);
+	}
+	
+	public Double getDistanceToNextObject(Vehicle vehicle) {
+		Iterator<Vehicle> i = vehiclesOnThisRoad.iterator();
+		Vehicle current;
+		while (i.hasNext()) {
+			current = i.next();
+			if (current == vehicle) {
+				if (i.hasNext()) {
+					return i.next().getLocation() - vehicle.getLocation();
+				}
+				else {
+					return getLength() - vehicle.getLocation();
+					}
+			}
+		}
+		return this._roadLength;
+	}		
+
+
+	public Double getLength() {
+		return this._roadLength;
 	}
 	
 	
