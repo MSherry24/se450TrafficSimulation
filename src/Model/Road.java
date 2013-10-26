@@ -2,45 +2,24 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Set;
 
-public class Road {
-	
-	private ArrayList<Vehicle> vehiclesOnThisRoad = new ArrayList<Vehicle>();
-	private Double _roadLength;
-	
-	
-	public Road(Double roadLength) {
-		vehiclesOnThisRoad = new ArrayList<Vehicle>();
-		this._roadLength = roadLength;
-	}
-	
-	public void addVehicle(Vehicle vehicleToAdd) {
-		if (vehicleToAdd == null)  throw (new IllegalArgumentException());
-		vehiclesOnThisRoad.add(vehicleToAdd);
-	}
-	
-	public Double getDistanceToNextObject(Vehicle vehicle) {
-		Iterator<Vehicle> i = vehiclesOnThisRoad.iterator();
-		Vehicle current;
-		while (i.hasNext()) {
-			current = i.next();
-			if (current == vehicle) {
-				if (i.hasNext()) {
-					return i.next().getLocation() - vehicle.getLocation();
-				}
-				else {
-					return getLength() - vehicle.getLocation();
-					}
-			}
+public class Road implements CarAcceptor {
+
+	Set cars;
+	Double endPosition;
+	CarAcceptor nextRoad;
+
+	public boolean accept(Car c, Double frontPosition) {
+		cars.remove(c);
+		if(frontPosition>endPosition) {
+			return nextRoad.accept(c,frontPosition-endPosition);
+		} else {
+			c.setCurrentRoad(this);
+			c.setFrontPosition(frontPosition);
+			cars.add(c);
+			return true;
 		}
-		return this._roadLength;
-	}		
-
-
-	public Double getLength() {
-		return this._roadLength;
 	}
-	
-	
-	
+
 }
