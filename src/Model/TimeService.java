@@ -1,25 +1,33 @@
 package model;
 
+import java.util.Observer;
+
 public class TimeService implements TimeServer {
 
-	public long currentTime() {
+	public double currentTime() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public void add(Road road) {
+	public void enqueue(double waketime, Agent thing) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void run(int duration) {
+	public void run(double duration) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void addObserver(Observer o) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void add(Agent thing) {
+	public void deleteObserver(Observer o) {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }
