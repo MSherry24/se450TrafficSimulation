@@ -1,24 +1,37 @@
 package model;
 
 public class Car implements Agent {
-
-	private Double _maxVelocity;
 	private Double _brakeDistance;
-	private Double _stopDistance;
-	private Double _length;
+	private Road _currentRoad;
 	public Double _distanceToObstacle;
 	private Double _frontPosition;
-	private Road _currentRoad;
+	private Double _length;
+	private Double _maxVelocity;
+	private Double _stopDistance;
+	private Double _timestep;
 
 	public Car() {
-		this._maxVelocity = 0.0;
-		this._brakeDistance = 0.0;
-		this._stopDistance = 0.0;
-		this._length = 5.0;
+		
+	}
+	
+	public void setValues(SimProperties propertyBag) {
+		this._brakeDistance = Math.max(propertyBag.getCarBrakeDistanceMax(),
+				Math.random() * propertyBag.getCarBrakeDistanceMin());
+		this._length = Math.max(propertyBag.getCarLengthMin(),
+				Math.random() * propertyBag.getCarLengthMax());
+		this._maxVelocity = Math.max(propertyBag.getCarMaxVelocityMax(),
+				Math.random() * propertyBag.getCarMaxVelocityMin());
+		this._stopDistance = Math.max(propertyBag.getCarStopDistanceMax(),
+				Math.random() * propertyBag.getCarStopDistanceyMin());
+		this._timestep = propertyBag.getTimeStep();	
 	}
 
 	public void setCurrentRoad(Road roadCarIsOn) {
 		this._currentRoad = roadCarIsOn;
+	}
+	
+	public Road getCurrentRoad() {
+		return this._currentRoad;
 	}
 
 	public void setFrontPosition(Double position) {
@@ -36,9 +49,8 @@ public class Car implements Agent {
 		}
 		velocity = Math.max(0.0, velocity);
 		velocity = Math.min(this._maxVelocity, velocity);
-//		nextFrontPosition = this._frontPosition + velocity * timeStep;
-//		return nextFrontPosition;
-		return null;
+		Double nextFrontPosition = this._frontPosition + velocity * this._timestep;
+		return nextFrontPosition;
 	}
 
 
@@ -46,8 +58,4 @@ public class Car implements Agent {
 		// TODO Auto-generated method stub
 
 	}
-
-
-
-
 }
