@@ -14,7 +14,7 @@ public class Car implements Agent {
 		
 	}
 	
-	public void setValues(SimProperties propertyBag) {
+	public void setValues(PropertyBag propertyBag) {
 		this._brakeDistance = Math.max(propertyBag.getCarBrakeDistanceMax(),
 				Math.random() * propertyBag.getCarBrakeDistanceMin());
 		this._length = Math.max(propertyBag.getCarLengthMin(),
@@ -22,7 +22,7 @@ public class Car implements Agent {
 		this._maxVelocity = Math.max(propertyBag.getCarMaxVelocityMax(),
 				Math.random() * propertyBag.getCarMaxVelocityMin());
 		this._stopDistance = Math.max(propertyBag.getCarStopDistanceMax(),
-				Math.random() * propertyBag.getCarStopDistanceyMin());
+				Math.random() * propertyBag.getCarStopDistanceMin());
 		this._timestep = propertyBag.getTimeStep();	
 	}
 

@@ -1,10 +1,10 @@
 package model;
 
-public class SimProperties {
+public class PropertyBag {
 	public enum TrafficType {
-	    ALTERNATING, SIMPLE
+		ALTERNATING, SIMPLE
 	}
-	
+
 	private Double timeStep = 0.1;
 	private Double runTime = 1000.0;
 	private Integer gridRow = 1;
@@ -28,9 +28,9 @@ public class SimProperties {
 	private Double trafficLightGreenTimeMax = 180.0;
 	private Double trafficLightYellowTimeMin = 4.0;
 	private Double trafficLightYellowTimeMax = 5.0;	
-	
-	public SimProperties() {
-		
+
+	public PropertyBag() {
+
 	}
 
 	public Double getTimeStep() {
@@ -153,11 +153,11 @@ public class SimProperties {
 		this.carMaxVelocityMax = carMaxVelocityMax;
 	}
 
-	public Double getCarStopDistanceyMin() {
+	public Double getCarStopDistanceMin() {
 		return carStopDistanceMin;
 	}
 
-	public void setCarStopDistanceyMin(Double carStopDistanceyMin) {
+	public void setCarStopDistanceMin(Double carStopDistanceyMin) {
 		this.carStopDistanceMin = carStopDistanceyMin;
 	}
 
@@ -216,4 +216,23 @@ public class SimProperties {
 	public void setTrafficLightYellowTimeMax(Double trafficLightYellowTimeMax) {
 		this.trafficLightYellowTimeMax = trafficLightYellowTimeMax;
 	}
+
+	public String toString() {
+		StringBuilder b = new StringBuilder();
+		b.append("Simulation time step (seconds)        [" + this.getTimeStep() + "]\n");
+		b.append("Simulation run time (seconds)        [" + this.getRunTime() + "]\n");
+		b.append("Grid size (number of roads)          [row=" + this.getGridRow() + ",column=" + this.getGridColumn() + "]\n");
+		b.append("Traffic pattern                      [" + this.getTrafficPattern() + "]\n");
+		b.append("Car entry rate (seconds/car)         [min=" + this.getCarGenerationDelayMin() + ",max=" + this.getCarGenerationDelayMax() + "]\n");
+		b.append("Road segment length (meters)         [min=" + this.getRoadSegmentLengthMin() + ",max=" + this.getRoadSegmentLengthMax() + "]\n");
+		b.append("Intersection length (meters)         [min=" + this.getIntersectionLengthMin() + ",max=" + this.getIntersectionLengthMax() + "]\n");
+		b.append("Car length (meters)                  [min=" + this.getCarLengthMin() + ",max=" + this.getCarLengthMax() + "]\n");
+		b.append("Car maximum velocity (meters/second) [min=" + this.getCarMaxVelocityMin() + ",max=" + this.getCarMaxVelocityMax() + "]\n");
+		b.append("Car stop distance (meters)           [min=" + this.getCarStopDistanceMin() + ",max=" + this.getCarStopDistanceMax() + "]\n");
+		b.append("Car brake distance (meters)          [min=" + this.getCarBrakeDistanceMin() + ",max=" + this.getCarBrakeDistanceMax() + "]\n");
+		b.append("Traffic light green time (seconds)   [min=" + this.getTrafficLightGreenTimeMin() + ",max=" + this.getTrafficLightGreenTimeMax() + "]\n");
+		b.append("Traffic light yellow time (seconds)  [min=" + this.getTrafficLightYellowTimeMin() + ",max=" + this.getTrafficLightYellowTimeMax() + "]\n");
+		return b.toString();
+	}
 }
+

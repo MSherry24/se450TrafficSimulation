@@ -12,6 +12,8 @@ import view.UIFormBuilder;
 import java.util.Iterator;
 import java.util.Comparator;
 
+import model.PropertyBag;
+
 class Control {
 	private static final int EXITED = 0;
 	private static final int EXIT = 1;
@@ -20,8 +22,8 @@ class Control {
 	private static final int NUMSTATES = 10;
 	private UIMenu[] _menus;
 	private int _state;
+	private PropertyBag propertyBag = new PropertyBag();
 
-	private UIForm _getVideoForm;
 	private UIFormTest _numberTest;
 	private UIFormTest _stringTest;
 
@@ -49,7 +51,7 @@ class Control {
 		_numberTest = new UIFormTest() {
 			public boolean run(String input) {
 				try {
-					Integer.parseInt(input);
+					Double.parseDouble(input);
 					return true;
 				} catch (NumberFormatException e) {
 					return false;
@@ -61,12 +63,6 @@ class Control {
 				return ! "".equals(input.trim());
 			}
 		};
-
-		UIFormBuilder f = new UIFormBuilder();
-		f.add("Title", _stringTest);
-		f.add("Year", yearTest);
-		f.add("Director", _stringTest);
-		_getVideoForm = f.toUIForm("Enter Video");
 	}
 
 	void run() {
@@ -90,6 +86,7 @@ class Control {
 		});
 		m.add("Run Simulation",
 				new UIMenuAction() {
+			//TODO
 			public void run() {
 
 			}
@@ -98,7 +95,6 @@ class Control {
 				new UIMenuAction() {
 			public void run() {
 				_state = SUBMENU;
-
 			}
 		});
 		m.add("Exit",
@@ -123,14 +119,20 @@ class Control {
 		m.add("Show current values",
 				new UIMenuAction() {
 			public void run() {
-				// TODO
+				System.out.println(propertyBag.toString());
 			}
 		});
 		m.add("Simulation time step",
 				new UIMenuAction() {
 			public void run() {
-				//TODO
-				_ui.displayMessage("Example");
+				UIFormBuilder fTimeStep = new UIFormBuilder();
+				fTimeStep.add("Time Step", _numberTest);
+				
+				UIForm _getTimeStepForm = fTimeStep.toUIForm("Enter New Value:");
+				String[] result1 = _ui.processForm(_getTimeStepForm);
+				Double newTimeStep = Double.parseDouble(result1[0]);
+
+				propertyBag.setTimeStep(newTimeStep);				
 			}
 		});
 		m.add("Simulation run time",
