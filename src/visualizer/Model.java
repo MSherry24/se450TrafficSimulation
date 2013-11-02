@@ -101,7 +101,7 @@ public class Model extends Observable {
     // Add Lights
     for (int i=0; i<rows; i++) {
       for (int j=0; j<columns; j++) {
-        intersections[i][j] = new Light();
+        intersections[i][j] = new Light(_propertyBag);
         builder.addLight(intersections[i][j], i, j);
         _agents.add(intersections[i][j]);
       }

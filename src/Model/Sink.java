@@ -9,6 +9,10 @@ public class Sink implements CarAcceptor {
 	public Double distanceToObstacle(Double fromPosition) {
 		return Double.POSITIVE_INFINITY;	
 		}
+
+	public Double getEndPosition() {
+		return Double.POSITIVE_INFINITY;
+	}
 	
 
 
