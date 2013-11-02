@@ -72,7 +72,7 @@ public class Road implements CarAcceptor {
 		return nextRoad;
 	}
 	
-	public void setNextRoad(Road nextRoad) {
+	public void setNextRoad(CarAcceptor nextRoad) {
 		this.nextRoad = nextRoad;
 	}
 }

@@ -9,6 +9,7 @@ import visualizer.AnimatorBuilder;
 import model.Car;
 import model.Light;
 import model.MP;
+import model.PropertyBag;
 import model.Road;
 import visualizer.Animator;
 import visualizer.SwingAnimator;
@@ -19,6 +20,7 @@ import visualizer.SwingAnimatorPainter;
  */
 public class SwingAnimatorBuilder implements AnimatorBuilder {
   MyPainter _painter;
+  PropertyBag _propertyBag;
   public SwingAnimatorBuilder() {
     _painter = new MyPainter();
   }

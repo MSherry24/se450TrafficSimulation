@@ -9,6 +9,7 @@ import view.UIForm;
 import view.UIFormTest;
 import view.UIFormBuilder;
 import visualizer.Model;
+import visualizer.SwingAnimatorBuilder;
 import visualizer.TextAnimatorBuilder;
 
 import java.util.Iterator;
@@ -88,7 +89,7 @@ class Control {
 		m.add("Run Simulation", new UIMenuAction() {
 			// TODO
 			public void run() {
-				Model model = new Model(new TextAnimatorBuilder(), propertyBag.getGridRow(), propertyBag.getGridColumn(), propertyBag);
+				Model model = new Model(new SwingAnimatorBuilder(), propertyBag.getGridRow(), propertyBag.getGridColumn(), propertyBag);
 				model.run(propertyBag.getRunTime());
 				model.dispose();
 

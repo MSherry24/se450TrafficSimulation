@@ -1,6 +1,6 @@
 package model;
 
-class Sink implements CarAcceptor {
+public class Sink implements CarAcceptor {
 
 	public boolean accept(Car c, Double frontPosition) {
 		return true;

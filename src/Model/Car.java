@@ -28,7 +28,7 @@ public class Car implements Agent {
 		this._currentRoad = roadCarIsOn;
 	}
 
-	public Road getCurrentRoad() {
+	public CarAcceptor getCurrentRoad() {
 		return this._currentRoad;
 	}
 
@@ -37,6 +37,7 @@ public class Car implements Agent {
 		if (position > roadEnd) {
 			this._currentRoad.getNextRoad().accept(this, position - roadEnd);
 			this._currentRoad.remove(this);
+			this._currentRoad = null;
 			return;
 		}
 		else {
@@ -87,6 +88,6 @@ public class Car implements Agent {
 
 	public Color getColor() {
 		// TODO Auto-generated method stub
-		return null;
+		return new Color(150,0,50);
 	}
 }

@@ -13,5 +13,11 @@ public class Light implements Agent{
 		
 	}
 
+	@Override
+	public CarAcceptor getCurrentRoad() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

@@ -10,6 +10,7 @@ import model.Car;
 import model.Light;
 import model.PropertyBag;
 import model.Road;
+import model.Sink;
 import visualizer.Animator;
 
 /**
@@ -72,6 +73,9 @@ public class Model extends Observable {
       // iterate through a copy because _agents may change during iteration...
       for (Agent a : _agents.toArray(new Agent[0])) {
         a.run(_time);
+        if (a.getCurrentRoad() == null) {
+        	_agents.remove(a);
+        }
       }
       super.setChanged();
       super.notifyObservers();
@@ -108,6 +112,9 @@ public class Model extends Observable {
     for (int i=0; i<rows; i++) {
       for (int j=0; j<=columns; j++) {
         Road l = new Road(_propertyBag);
+        if (j == columns) {
+        	l.setNextRoad(new Sink());
+        }
         builder.addHorizontalRoad(l, i, j, eastToWest);
         roads.add(l);
       }
