@@ -78,7 +78,7 @@ public class TextAnimatorBuilder implements AnimatorBuilder {
       for (Element<Road> e : _roadElements) {
         for (Car d : e.x.getCars()) {
           System.out.print("Road at (" + e.i + "," + e.j + "): ");
-          System.out.println("Car at " + d.getPosition());
+          System.out.println("Car at " + d.getFrontPosition());
         }
       }
     }

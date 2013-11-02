@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Iterator;
+import java.util.Set;
 
 import random.Util;
 
@@ -9,15 +10,29 @@ import junit.framework.TestCase;
 
 @SuppressWarnings("deprecation")
 public class RoadTEST extends TestCase {
-	//TODO
+
+	PropertyBag propertyBag = new PropertyBag();
+	Car c1 = new Car(propertyBag);
+	Road r1 = new Road(propertyBag);
+	Road r2 = new Road(propertyBag);
+
 	public RoadTEST(String name) {
 		super(name);
 	}
+
 	public void testConstructorAndAttributes() {
-		PropertyBag propertyBag = new PropertyBag();
-		Car c1 = new Car(propertyBag);
-		Road r1 = new Road(propertyBag);
-		
+
+		Assert.assertNotNull(r1.getCars());
+		Assert.assertEquals(r1.getCars().size(), 0, Util.EPSILON);
+		Assert.assertTrue(r1.getEndPosition() <= propertyBag.getRoadSegmentLengthMax());
+		Assert.assertTrue(r1.getEndPosition() >= propertyBag.getRoadSegmentLengthMin());
+		r1.setNextRoad(r2);
+		Assert.assertEquals(r1.getNextRoad(), r2);
+	}
+
+	public void testCarAcceptAndRemove() {
+
+
 		Assert.assertEquals(r1.getCars().size(), 0);
 		r1.accept(c1, 0.0);
 		Assert.assertEquals(r1.getCars().size(), 1);
@@ -27,12 +42,14 @@ public class RoadTEST extends TestCase {
 			Assert.assertEquals(current.getCurrentRoad(), r1);
 			Assert.assertEquals(current, c1);
 		}
-		
-		r1.accept(c1, 15.0);
+		r1.remove(c1);
+		Assert.assertEquals(r1.getCars().size(), 0);
+	}
+
+	public void testDistanceToObstacle() {	
+		r1.setNextRoad(r2);
+		r1.accept(c1, r1.getEndPosition() / 2);
 		Assert.assertEquals(r1.getCars().size(), 1);
 		Assert.assertTrue(Util.isEquals(r1.distanceToObstacle(0.0), c1.getBackPosition()));
-		
-		
-		
 	}
 }

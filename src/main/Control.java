@@ -77,7 +77,31 @@ class Control {
 			_ui.displayError("UI closed");
 		}
 	}
+	
+	private Double buildDoubleForm(String element) {
+		UIFormBuilder form = new UIFormBuilder();
+		form.add(element, _numberTest);
 
+		UIForm _getForm = form
+				.toUIForm("Enter New Value:");
+		String[] result1 = _ui.processForm(_getForm);
+		Double newValue = Double.parseDouble(result1[0]);
+		
+		return newValue;
+	}
+
+	private Integer buildIntegerForm(String element) {
+		UIFormBuilder form = new UIFormBuilder();
+		form.add(element, _numberTest);
+
+		UIForm _getForm = form
+				.toUIForm("Enter New Value:");
+		String[] result1 = _ui.processForm(_getForm);
+		Integer newValue = Integer.parseInt(result1[0]);
+		
+		return newValue;
+	}
+	
 	private void addSTART(int stateNum) {
 		UIMenuBuilder m = new UIMenuBuilder();
 
@@ -124,34 +148,25 @@ class Control {
 		});
 		m.add("Simulation time step", new UIMenuAction() {
 			public void run() {
-				UIFormBuilder fTimeStep = new UIFormBuilder();
-				fTimeStep.add("Time Step", _numberTest);
-
-				UIForm _getTimeStepForm = fTimeStep
-						.toUIForm("Enter New Value:");
-				String[] result1 = _ui.processForm(_getTimeStepForm);
-				Double newTimeStep = Double.parseDouble(result1[0]);
-
-				propertyBag.setTimeStep(newTimeStep);
+				Double newValue = buildDoubleForm("Time Step");
+				propertyBag.setTimeStep(newValue);
 			}
+
+			
 		});
 		m.add("Simulation run time", new UIMenuAction() {
 			public void run() {
-				UIFormBuilder fRunTime = new UIFormBuilder();
-				fRunTime.add("Run Time", _numberTest);
-
-				UIForm _getRunTimeForm = fRunTime
-						.toUIForm("Enter New Value:");
-				String[] result1 = _ui.processForm(_getRunTimeForm);
-				Double newRunTime = Double.parseDouble(result1[0]);
-
-				propertyBag.setRunTime(newRunTime);
+				Double newValue = buildDoubleForm("Run Time");
+				propertyBag.setRunTime(newValue);
 			}
 		});
 		m.add("Grid size", new UIMenuAction() {
 			public void run() {
-				// TODO
-
+				Integer newRowValue = buildIntegerForm("Grid Rows");
+				propertyBag.setGridRow(newRowValue);
+				
+				Integer newColumnValue = buildIntegerForm("Grid Columns");
+				propertyBag.setGridColumn(newColumnValue);
 			}
 		});
 		m.add("Traffic pattern", new UIMenuAction() {

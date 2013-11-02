@@ -1,7 +1,7 @@
 package visualizer;
 
-
 import model.MP;
+
 
 /**
  * Static class for visualization parameters.

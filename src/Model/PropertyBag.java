@@ -8,7 +8,7 @@ public class PropertyBag {
 	private Double timeStep = 0.1;
 	private Double runTime = 1000.0;
 	private Integer gridRow = 1;
-	private Integer gridColumn = 0;
+	private Integer gridColumn = 1;
 	private TrafficType trafficPattern = TrafficType.ALTERNATING;
 	private Double carGenerationDelayMin = 2.0;
 	private Double carGenerationDelayMax = 25.0;

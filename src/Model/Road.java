@@ -10,8 +10,8 @@ public class Road implements CarAcceptor {
 	private CarAcceptor nextRoad;
 
 	public Road(PropertyBag propertyBag) {
-		this.endPosition = Math.max(propertyBag.getRoadSegmentLengthMax(),
-				Math.random() * propertyBag.getRoadSegmentLengthMin());
+		this.endPosition = Math.random() * propertyBag.getRoadSegmentLengthMax();
+		this.endPosition = Math.max(this.endPosition, propertyBag.getRoadSegmentLengthMin());
 		this.cars = new HashSet<Car>();
 	}
 
@@ -39,15 +39,6 @@ public class Road implements CarAcceptor {
 		}
 	}
 
-	private Double distanceToCarBack(Double fromPosition) {
-		double carBackPosition = Double.POSITIVE_INFINITY;
-		for (Car c : cars)
-			if (c.getBackPosition() >= fromPosition &&
-			c.getBackPosition() < carBackPosition)
-				carBackPosition = c.getBackPosition();
-		return carBackPosition;
-	}
-
 	public Double distanceToObstacle(Double fromPosition) {
 		double obstaclePosition = this.distanceToCarBack(fromPosition);
 		if (obstaclePosition == Double.POSITIVE_INFINITY) {
@@ -58,6 +49,15 @@ public class Road implements CarAcceptor {
 			obstaclePosition = nextRoad.distanceToObstacle(distanceToEnd);
 		}
 		return obstaclePosition-fromPosition;	
+	}
+	
+	private Double distanceToCarBack(Double fromPosition) {
+		double carBackPosition = Double.POSITIVE_INFINITY;
+		for (Car c : cars)
+			if (c.getBackPosition() >= fromPosition &&
+			c.getBackPosition() < carBackPosition)
+				carBackPosition = c.getBackPosition();
+		return carBackPosition;
 	}
 
 	public Set<Car> getCars() {
@@ -73,6 +73,9 @@ public class Road implements CarAcceptor {
 	}
 	
 	public void setNextRoad(CarAcceptor nextRoad) {
+		if (this.nextRoad != null) {
+			throw new IllegalArgumentException();
+		}
 		this.nextRoad = nextRoad;
 	}
 }

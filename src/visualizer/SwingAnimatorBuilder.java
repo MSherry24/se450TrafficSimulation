@@ -44,15 +44,15 @@ public class SwingAnimatorBuilder implements AnimatorBuilder {
   public void addHorizontalRoad(Road l, int i, int j, boolean eastToWest) {
     double x = skipInit + j*skipRoadCar;
     double y = skipInit + skipRoad + i*skipRoadCar;
-    Translator t = eastToWest ? new TranslatorEW(x, y, MP.roadLength, VP.elementWidth, VP.scaleFactor)
-                              : new TranslatorWE(x, y, MP.roadLength, VP.elementWidth, VP.scaleFactor);
+    Translator t = eastToWest ? new TranslatorEW(x, y, l.getEndPosition(), VP.elementWidth, VP.scaleFactor)
+                              : new TranslatorWE(x, y, l.getEndPosition(), VP.elementWidth, VP.scaleFactor);
     _painter.addRoad(l,t);
   }
   public void addVerticalRoad(Road l, int i, int j, boolean southToNorth) {
     double x = skipInit + skipRoad + j*skipRoadCar;
     double y = skipInit + i*skipRoadCar;
-    Translator t = southToNorth ? new TranslatorSN(x, y, MP.roadLength, VP.elementWidth, VP.scaleFactor)
-                                : new TranslatorNS(x, y, MP.roadLength, VP.elementWidth, VP.scaleFactor);
+    Translator t = southToNorth ? new TranslatorSN(x, y, l.getEndPosition(), VP.elementWidth, VP.scaleFactor)
+                                : new TranslatorNS(x, y, l.getEndPosition(), VP.elementWidth, VP.scaleFactor);
     _painter.addRoad(l,t);
   }
 
@@ -98,7 +98,7 @@ public class SwingAnimatorBuilder implements AnimatorBuilder {
       }
       g.setColor(Color.BLACK);
       for (Element<Road> e : _roadElements) {
-        XGraphics.fillRect(g, e.t, 0, 0, MP.roadLength, VP.elementWidth);
+        XGraphics.fillRect(g, e.t, 0, 0, e.x.getEndPosition(), VP.elementWidth);
       }
       
       // Then draw the foreground elements
@@ -106,7 +106,7 @@ public class SwingAnimatorBuilder implements AnimatorBuilder {
         // iterate through a copy because e.x.getCars() may change during iteration...
         for (Car d : e.x.getCars().toArray(new Car[0])) {
           g.setColor(d.getColor());
-          XGraphics.fillOval(g, e.t, d.getPosition(), 0, MP.carLength, VP.elementWidth);
+          XGraphics.fillOval(g, e.t, d.getFrontPosition(), 0, d.getLength(), VP.elementWidth);
         }
       }
     }

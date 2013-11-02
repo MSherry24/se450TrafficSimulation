@@ -10,26 +10,24 @@ public class Car implements Agent {
 	private Double _maxVelocity;
 	private Double _stopDistance;
 	private Double _timestep;
+	private Color _color;
 
 	public Car(PropertyBag propertyBag) {
-		this._brakeDistance = Math.max(propertyBag.getCarBrakeDistanceMax(),
-				Math.random() * propertyBag.getCarBrakeDistanceMin());
-		this._length = Math.max(propertyBag.getCarLengthMin(),
-				Math.random() * propertyBag.getCarLengthMax());
-		this._maxVelocity = Math.max(propertyBag.getCarMaxVelocityMax(),
-				Math.random() * propertyBag.getCarMaxVelocityMin());
-		this._stopDistance = Math.max(propertyBag.getCarStopDistanceMax(),
-				Math.random() * propertyBag.getCarStopDistanceMin());
+		this._brakeDistance = Math.random() * propertyBag.getCarBrakeDistanceMax();
+		this._brakeDistance = Math.max(propertyBag.getCarBrakeDistanceMin(), this._brakeDistance);
+		
+		this._length = Math.random() * propertyBag.getCarLengthMax();
+		this._length = Math.max(propertyBag.getCarLengthMin(), this._length);
+		
+		this._maxVelocity = Math.random() * propertyBag.getCarMaxVelocityMax();
+		this._maxVelocity = Math.max(propertyBag.getCarMaxVelocityMin(), this._maxVelocity);
+				
+		this._stopDistance = Math.random() * propertyBag.getCarStopDistanceMax();
+		this._stopDistance = Math.max(propertyBag.getCarStopDistanceMin(), this._stopDistance);
+		
+		this._color = new java.awt.Color(255,191,100);
 		this._timestep = propertyBag.getTimeStep();	
 		this._frontPosition = 0.0;
-	}
-
-	public void setCurrentRoad(Road roadCarIsOn) {
-		this._currentRoad = roadCarIsOn;
-	}
-
-	public CarAcceptor getCurrentRoad() {
-		return this._currentRoad;
 	}
 
 	public void setFrontPosition(Double position) {
@@ -53,11 +51,12 @@ public class Car implements Agent {
 		return this._frontPosition - this._length;
 	}
 
-
-
-	public Double getVelocity() {
+	private Double getCurrentVelocity() {
 		Double velocity;
 		Double distanceToObstacle = this._currentRoad.distanceToObstacle(this._frontPosition);
+		if (distanceToObstacle == Double.POSITIVE_INFINITY) {
+			return this._frontPosition + this._maxVelocity * this._timestep;
+		}
 		if (distanceToObstacle < this._maxVelocity && 
 				distanceToObstacle > this._brakeDistance)
 			velocity = distanceToObstacle / 2;
@@ -76,18 +75,40 @@ public class Car implements Agent {
 		// find closest obstacle
 		// calculate newVelocity
 		// calculate newFrontPosition
-		Double carVelocity = getVelocity();
-		setFrontPosition(carVelocity); 
+		Double currentVelocity = getCurrentVelocity();
+		setFrontPosition(currentVelocity); 
 
 	}
+	
+	public void setCurrentRoad(Road roadCarIsOn) {
+		this._currentRoad = roadCarIsOn;
+	}
 
-	public Double getPosition() {
-		// TODO Auto-generated method stub
-		return this._frontPosition;
+	public CarAcceptor getCurrentRoad() {
+		return this._currentRoad;
 	}
 
 	public Color getColor() {
-		// TODO Auto-generated method stub
-		return new Color(150,0,50);
+		return _color;
+	}
+	
+	public Double getLength() {
+		return this._length;
+	}
+	
+	public Double getBrakeDistance() {
+		return this._brakeDistance;
+	}
+	
+	public Double getMaxVelocity() {
+		return this._maxVelocity;
+	}
+	
+	public Double getStopDistance() {
+		return this._stopDistance;
+	}
+	
+	public Double getTimeStep() {
+		return this._timestep;
 	}
 }

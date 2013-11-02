@@ -2,22 +2,23 @@ package model;
 
 public class Light implements Agent{
 
+	/**
+	 * A light has a boolean state.
+	 */
+	public Light() { } // Created only by this package
+
+	private boolean _state;
+
 	public boolean getState() {
-		// TODO Auto-generated method stub
-		return false;
+		return _state;
 	}
-
-	@Override
-	public void run(double _time) {
-		// TODO Auto-generated method stub
-		
+	public void run(double time) {
+		if (time%40==0) {
+			_state = !_state;
+		}
 	}
-
-	@Override
 	public CarAcceptor getCurrentRoad() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 }
