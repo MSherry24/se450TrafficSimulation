@@ -1,7 +1,7 @@
 package model;
 
 public interface Agent {
-	public void run ();
+	public void run (double _time);
 }
 
 

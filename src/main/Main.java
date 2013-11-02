@@ -10,6 +10,9 @@ public class Main {
     ui = new view.TextUI();
     TimeServerLinked timeserver = new TimeServerLinked();
 
+   
+
+    
     Control control = new Control(ui);
     control.run();
   }

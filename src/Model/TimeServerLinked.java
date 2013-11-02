@@ -87,7 +87,7 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 				super.notifyObservers();
 			}
 			_currentTime = _head.next.waketime;
-			dequeue().run();
+			dequeue().run(duration);
 		}
 		_currentTime = endtime;
 	}

@@ -8,6 +8,8 @@ import view.UIError;
 import view.UIForm;
 import view.UIFormTest;
 import view.UIFormBuilder;
+import visualizer.Model;
+import visualizer.TextAnimatorBuilder;
 
 import java.util.Iterator;
 import java.util.Comparator;
@@ -60,7 +62,7 @@ class Control {
 		};
 		_stringTest = new UIFormTest() {
 			public boolean run(String input) {
-				return ! "".equals(input.trim());
+				return !"".equals(input.trim());
 			}
 		};
 	}
@@ -78,27 +80,26 @@ class Control {
 	private void addSTART(int stateNum) {
 		UIMenuBuilder m = new UIMenuBuilder();
 
-		m.add("Default",
-				new UIMenuAction() {
+		m.add("Default", new UIMenuAction() {
 			public void run() {
 				_ui.displayError("doh!");
 			}
 		});
-		m.add("Run Simulation",
-				new UIMenuAction() {
-			//TODO
+		m.add("Run Simulation", new UIMenuAction() {
+			// TODO
 			public void run() {
-				
+				Model model = new Model(new TextAnimatorBuilder(), propertyBag.getGridRow(), propertyBag.getGridColumn(), propertyBag);
+				model.run(propertyBag.getRunTime());
+				model.dispose();
+
 			}
 		});
-		m.add("Change Simulation Parameters",
-				new UIMenuAction() {
+		m.add("Change Simulation Parameters", new UIMenuAction() {
 			public void run() {
 				_state = SUBMENU;
 			}
 		});
-		m.add("Exit",
-				new UIMenuAction() {
+		m.add("Exit", new UIMenuAction() {
 			public void run() {
 				_state = EXIT;
 			}
@@ -110,126 +111,122 @@ class Control {
 	private void addSUBMENU(int stateNum) {
 		UIMenuBuilder m = new UIMenuBuilder();
 
-		m.add("Default",
-				new UIMenuAction() {
+		m.add("Default", new UIMenuAction() {
 			public void run() {
 				_ui.displayError("doh!");
 			}
 		});
-		m.add("Show current values",
-				new UIMenuAction() {
+		m.add("Show current values", new UIMenuAction() {
 			public void run() {
 				System.out.println(propertyBag.toString());
 			}
 		});
-		m.add("Simulation time step",
-				new UIMenuAction() {
+		m.add("Simulation time step", new UIMenuAction() {
 			public void run() {
 				UIFormBuilder fTimeStep = new UIFormBuilder();
 				fTimeStep.add("Time Step", _numberTest);
-				
-				UIForm _getTimeStepForm = fTimeStep.toUIForm("Enter New Value:");
+
+				UIForm _getTimeStepForm = fTimeStep
+						.toUIForm("Enter New Value:");
 				String[] result1 = _ui.processForm(_getTimeStepForm);
 				Double newTimeStep = Double.parseDouble(result1[0]);
 
-				propertyBag.setTimeStep(newTimeStep);				
+				propertyBag.setTimeStep(newTimeStep);
 			}
 		});
-		m.add("Simulation run time",
-				new UIMenuAction() {
+		m.add("Simulation run time", new UIMenuAction() {
 			public void run() {
-				//TODO
+				UIFormBuilder fRunTime = new UIFormBuilder();
+				fRunTime.add("Run Time", _numberTest);
+
+				UIForm _getRunTimeForm = fRunTime
+						.toUIForm("Enter New Value:");
+				String[] result1 = _ui.processForm(_getRunTimeForm);
+				Double newRunTime = Double.parseDouble(result1[0]);
+
+				propertyBag.setRunTime(newRunTime);
 			}
 		});
-		m.add("Grid size",
-				new UIMenuAction() {
+		m.add("Grid size", new UIMenuAction() {
 			public void run() {
-				//TODO
+				// TODO
 
 			}
 		});
-		m.add("Traffic pattern",
-				new UIMenuAction() {
-			public void run() {
-				//TODO
-			}
-		});
-		m.add("Car entry rate",
-				new UIMenuAction() {
+		m.add("Traffic pattern", new UIMenuAction() {
 			public void run() {
 				// TODO
 			}
 		});
-		m.add("Road segment length",
-				new UIMenuAction() {
-			public void run() {
-				// TODO
-			}
-		});       
-		m.add("Intersection length",
-				new UIMenuAction() {
+		m.add("Car entry rate", new UIMenuAction() {
 			public void run() {
 				// TODO
 			}
 		});
-		m.add("Car length",
-				new UIMenuAction() {
+		m.add("Road segment length", new UIMenuAction() {
 			public void run() {
 				// TODO
 			}
 		});
-		m.add("Car maximum velocity",
-				new UIMenuAction() {
+		m.add("Intersection length", new UIMenuAction() {
 			public void run() {
 				// TODO
 			}
 		});
-		m.add("Car stop distance",
-				new UIMenuAction() {
+		m.add("Car length", new UIMenuAction() {
 			public void run() {
 				// TODO
 			}
 		});
-		m.add("Car brake distance",
-				new UIMenuAction() {
+		m.add("Car maximum velocity", new UIMenuAction() {
 			public void run() {
 				// TODO
 			}
 		});
-		m.add("Traffic light green time",
-				new UIMenuAction() {
+		m.add("Car stop distance", new UIMenuAction() {
 			public void run() {
 				// TODO
 			}
 		});
-		m.add("Traffic light yellow time",
-				new UIMenuAction() {
+		m.add("Car brake distance", new UIMenuAction() {
+			public void run() {
+				// TODO
+			}
+		});
+		m.add("Traffic light green time", new UIMenuAction() {
+			public void run() {
+				// TODO
+			}
+		});
+		m.add("Traffic light yellow time", new UIMenuAction() {
 			public void run() {
 				// TODO
 			}
 		});
 		m.add("Reset simulation and return to the main menu",
 				new UIMenuAction() {
-			public void run() {
-				_state = START;
-			}
-		});
+					public void run() {
+						_state = START;
+					}
+				});
 
 		_menus[stateNum] = m.toUIMenu("Settings Menu");
 
 	}
+
 	private void addEXIT(int stateNum) {
 		UIMenuBuilder m = new UIMenuBuilder();
 
-		m.add("Default", new UIMenuAction() { public void run() {} });
-		m.add("Yes",
-				new UIMenuAction() {
+		m.add("Default", new UIMenuAction() {
+			public void run() {
+			}
+		});
+		m.add("Yes", new UIMenuAction() {
 			public void run() {
 				_state = EXITED;
 			}
 		});
-		m.add("No",
-				new UIMenuAction() {
+		m.add("No", new UIMenuAction() {
 			public void run() {
 				_state = START;
 			}

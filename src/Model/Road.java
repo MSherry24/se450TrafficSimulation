@@ -15,10 +15,6 @@ public class Road implements CarAcceptor {
 		this.cars = new HashSet<Car>();
 	}
 
-	public void setNextRoad(Road nextRoad) {
-		this.nextRoad = nextRoad;
-	}
-
 	public boolean accept(Car c, Double frontPosition) {
 		if (this.cars != null) {
 			this.cars.remove(c);
@@ -30,6 +26,16 @@ public class Road implements CarAcceptor {
 			c.setFrontPosition(frontPosition);
 			cars.add(c);
 			return true;
+		}
+	}
+	
+	public boolean remove(Car c) {
+		if (this.cars.contains(c)) {
+			this.cars.remove(c);
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 
@@ -45,7 +51,10 @@ public class Road implements CarAcceptor {
 	public Double distanceToObstacle(Double fromPosition) {
 		double obstaclePosition = this.distanceToCarBack(fromPosition);
 		if (obstaclePosition == Double.POSITIVE_INFINITY) {
-			double distanceToEnd = fromPosition-this.endPosition;
+			double distanceToEnd = this.endPosition - fromPosition;
+			if (nextRoad == null) {
+				nextRoad = new Sink();
+			}
 			obstaclePosition = nextRoad.distanceToObstacle(distanceToEnd);
 		}
 		return obstaclePosition-fromPosition;	
@@ -61,6 +70,10 @@ public class Road implements CarAcceptor {
 
 	public CarAcceptor getNextRoad() {
 		return nextRoad;
+	}
+	
+	public void setNextRoad(Road nextRoad) {
+		this.nextRoad = nextRoad;
 	}
 }
 
