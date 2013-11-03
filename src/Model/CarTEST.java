@@ -1,5 +1,6 @@
 package model;
 
+import model.Car.Orientation;
 import random.Util;
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -9,7 +10,7 @@ public class CarTEST extends TestCase {
 	
 	PropertyBag propertyBag = new PropertyBag();
 	TimeServerLinked t1 = new TimeServerLinked();
-	Car c1 = new Car(propertyBag, t1);
+	Car c1 = new Car(propertyBag, t1, Orientation.EW);
 	Road r1 = new Road(propertyBag);
 	Road r2 = new Road(propertyBag);
 	
@@ -18,7 +19,7 @@ public class CarTEST extends TestCase {
 	}
 
 	public void testConstructorAndAttributes() {
-		c1 = new Car(propertyBag, t1);
+		c1 = new Car(propertyBag, t1,  Orientation.EW);
 		r1 = new Road(propertyBag);
 		Assert.assertEquals(c1.getCurrentRoad(),null);
 		
@@ -35,7 +36,7 @@ public class CarTEST extends TestCase {
 	}
 	
 	public void testCurrentRoad() {
-		c1 = new Car(propertyBag, t1);
+		c1 = new Car(propertyBag, t1, Orientation.EW);
 		r1 = new Road(propertyBag);
 		Assert.assertEquals(c1.getCurrentRoad(),null);
 		r1.accept(c1, 0.0);
@@ -45,7 +46,7 @@ public class CarTEST extends TestCase {
 	}
 	
 	public void testPositionsAndLength() {
-		c1 = new Car(propertyBag, t1);
+		c1 = new Car(propertyBag, t1,  Orientation.EW);
 		r1 = new Road(propertyBag);
 		r1.accept(c1,0.0);
 		Assert.assertTrue(Util.isEquals(-c1.getBackPosition(), c1.getLength()));
@@ -55,7 +56,7 @@ public class CarTEST extends TestCase {
 	}
 	
 	public void testVelocity() {
-		c1 = new Car(propertyBag, t1);
+		c1 = new Car(propertyBag, t1, Orientation.EW);
 		r1 = new Road(propertyBag);
 		r1.accept(c1, c1.getFrontPosition());
 		c1.run(1);

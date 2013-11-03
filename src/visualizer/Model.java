@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import model.Agent;
 import model.Car;
 import model.CarSource;
 import model.Light;
 import model.PropertyBag;
 import model.Road;
+import model.Car.Orientation;
 import model.Sink;
 import model.TimeServerLinked;
-import visualizer.Animator;
+
 
 /**
  * An example to model for a simple visualization.
@@ -104,7 +104,7 @@ public class Model extends Observable {
 		// Add Horizontal Roads
 		boolean eastToWest = false;
 		for (int i=0; i<rows; i++) {
-			CarSource carsource = new CarSource(this._propertyBag, this._time);
+			CarSource carsource = new CarSource(this._propertyBag, this._time, Orientation.EW);
 			Road previousRoad = new Road(this._propertyBag);
 			for (int j=0; j<=columns; j++) {
 				Road l = new Road(_propertyBag);
@@ -128,7 +128,7 @@ public class Model extends Observable {
 		// Add Vertical Roads
 		boolean southToNorth = false;
 		for (int j=0; j<columns; j++) {
-			CarSource carsource = new CarSource(this._propertyBag, this._time);
+			CarSource carsource = new CarSource(this._propertyBag, this._time, Orientation.NS);
 			Road previousRoad = new Road(this._propertyBag);
 			for (int i=0; i<=rows; i++) {
 				Road l = new Road(_propertyBag);

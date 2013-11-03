@@ -3,6 +3,8 @@ package model;
 import java.util.Iterator;
 import java.util.Set;
 
+import model.Car.Orientation;
+
 import random.Util;
 
 import junit.framework.Assert;
@@ -13,7 +15,7 @@ public class RoadTEST extends TestCase {
 
 	PropertyBag propertyBag = new PropertyBag();
 	TimeServerLinked t1 = new TimeServerLinked();
-	Car c1 = new Car(propertyBag, t1);
+	Car c1 = new Car(propertyBag, t1, Orientation.EW);
 	Road r1 = new Road(propertyBag);
 	Road r2 = new Road(propertyBag);
 
@@ -51,6 +53,6 @@ public class RoadTEST extends TestCase {
 		r1.setNextRoad(r2);
 		r1.accept(c1, r1.getEndPosition() / 2);
 		Assert.assertEquals(r1.getCars().size(), 1);
-		Assert.assertTrue(Util.isEquals(r1.distanceToObstacle(0.0), c1.getBackPosition()));
+		Assert.assertTrue(Util.isEquals(r1.distanceToObstacle(0.0, c1.getOrientation()), c1.getBackPosition()));
 	}
 }

@@ -3,35 +3,40 @@ package model;
 import java.util.HashSet;
 import java.util.Set;
 
+import model.Car.Orientation;
+
 public class Road implements CarAcceptor {
 
-	private Set<Car> cars;
-	private Double endPosition;
-	private CarAcceptor nextRoad;
+	private Set<Car> _cars;
+	private Double _endPosition;
+	private CarAcceptor _nextRoad;
+//	private Orientation _orientation;
+	
+	
 
 	public Road(PropertyBag propertyBag) {
-		this.endPosition = Math.random() * propertyBag.getRoadSegmentLengthMax();
-		this.endPosition = Math.max(this.endPosition, propertyBag.getRoadSegmentLengthMin());
-		this.cars = new HashSet<Car>();
+		this._endPosition = Math.random() * propertyBag.getRoadSegmentLengthMax();
+		this._endPosition = Math.max(this._endPosition, propertyBag.getRoadSegmentLengthMin());
+		this._cars = new HashSet<Car>();
 	}
 
 	public boolean accept(Car c, Double frontPosition) {
-		if (this.cars != null) {
-			this.cars.remove(c);
+		if (this._cars != null) {
+			this._cars.remove(c);
 		}
-		if(frontPosition>endPosition) {
-			return nextRoad.accept(c,frontPosition-endPosition);
+		if(frontPosition>_endPosition) {
+			return _nextRoad.accept(c,frontPosition-_endPosition);
 		} else {
 			c.setCurrentRoad(this);
 			c.setFrontPosition(frontPosition);
-			cars.add(c);
+			_cars.add(c);
 			return true;
 		}
 	}
 	
 	public boolean remove(Car c) {
-		if (this.cars.contains(c)) {
-			this.cars.remove(c);
+		if (this._cars.contains(c)) {
+			this._cars.remove(c);
 			return true;
 		}
 		else {
@@ -39,21 +44,18 @@ public class Road implements CarAcceptor {
 		}
 	}
 
-	public Double distanceToObstacle(Double fromPosition) {
-		double obstaclePosition = this.distanceToCarBack(fromPosition);
+	public Double distanceToObstacle(Double fromPosition, Orientation orientation) {
+		double obstaclePosition = this.distanceToObstacleBack(fromPosition);
 		if (obstaclePosition == Double.POSITIVE_INFINITY) {
-			double distanceToEnd = this.endPosition - fromPosition;
-			if (nextRoad == null) {
-				nextRoad = new Sink();
-			}
-			obstaclePosition = nextRoad.distanceToObstacle(0.0) + distanceToEnd;
+			double distanceToEnd = this._endPosition - fromPosition;
+			obstaclePosition = _nextRoad.distanceToObstacle(0.0, orientation) + distanceToEnd;
 		}
 		return obstaclePosition-fromPosition;	
 	}
 	
-	private Double distanceToCarBack(Double fromPosition) {
+	private Double distanceToObstacleBack(Double fromPosition) {
 		double carBackPosition = Double.POSITIVE_INFINITY;
-		for (Car c : cars)
+		for (Car c : _cars)
 			if (c.getBackPosition() >= fromPosition &&
 			c.getBackPosition() < carBackPosition)
 				carBackPosition = c.getBackPosition();
@@ -61,19 +63,23 @@ public class Road implements CarAcceptor {
 	}
 
 	public Set<Car> getCars() {
-		return cars;
+		return _cars;
 	}
 
 	public Double getEndPosition() {
-		return endPosition;
+		return _endPosition;
 	}
 
 	public CarAcceptor getNextRoad() {
-		return nextRoad;
+		return _nextRoad;
 	}
 	
 	public void setNextRoad(CarAcceptor nextRoad) {
-		this.nextRoad = nextRoad;
+		this._nextRoad = nextRoad;
 	}
+	
+//	public Orientation getOrientation() {
+//		return this._orientation;
+//	}
 }
 

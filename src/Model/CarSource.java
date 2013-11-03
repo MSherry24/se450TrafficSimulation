@@ -1,15 +1,19 @@
 package model;
 
+import model.Car.Orientation;
+
 public class CarSource implements Agent {
 	
 	private PropertyBag _propertyBag;
 	private Double _generateCarDelay;
 	private Road _nextRoad;
 	private TimeServer _time;
+	private Orientation _orientation;
 	
-	public CarSource(PropertyBag propertyBag, TimeServer time) {
+	public CarSource(PropertyBag propertyBag, TimeServer time, Orientation orientation) {
 		this._propertyBag = propertyBag;
 		this._time = time;
+		this._orientation = orientation;
 		
 		this._generateCarDelay = Math.random() * propertyBag.getCarGenerationDelayMax();
 		this._generateCarDelay = Math.max(propertyBag.getCarGenerationDelayMin(), this._generateCarDelay);
@@ -19,11 +23,11 @@ public class CarSource implements Agent {
 
 	@Override
 	public void run(double _time) {
-		Car c = new Car(this._propertyBag, this._time);
+		Car c = new Car(this._propertyBag, this._time, this._orientation);
 		if (this._nextRoad == null) {
 			throw new NullPointerException("Next Road Was Not Set");
 		}
-		if (this._nextRoad.distanceToObstacle(0.0) > c.getLength()) {
+		if (this._nextRoad.distanceToObstacle(0.0, c.getOrientation()) > c.getLength()) {
 			this._nextRoad.accept(c, 0.0);
 			this._time.enqueue(this._time.currentTime() + this._propertyBag.getTimeStep(), c);
 		}
