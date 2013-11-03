@@ -8,11 +8,6 @@ public class Main {
   public static void main(String[] args) {
     UI ui;
     ui = new view.TextUI();
-    TimeServerLinked timeserver = new TimeServerLinked();
-
-   
-
-    
     Control control = new Control(ui);
     control.run();
   }

@@ -12,7 +12,8 @@ import junit.framework.TestCase;
 public class RoadTEST extends TestCase {
 
 	PropertyBag propertyBag = new PropertyBag();
-	Car c1 = new Car(propertyBag);
+	TimeServerLinked t1 = new TimeServerLinked();
+	Car c1 = new Car(propertyBag, t1);
 	Road r1 = new Road(propertyBag);
 	Road r2 = new Road(propertyBag);
 

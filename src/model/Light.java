@@ -3,12 +3,14 @@ package model;
 public class Light implements Agent {
 	
 	private PropertyBag _propertyBag;
+	private TimeServer _time;
 	private boolean _state;
 	private Long _greenTime;
 	private Long _yellowTime;
 
-	public Light(PropertyBag propertyBag) { 
+	public Light(PropertyBag propertyBag, TimeServer time) { 
 		this._propertyBag = propertyBag;
+		this._time = time;
 		
 		this._greenTime = Math.round(Math.random() * _propertyBag.getTrafficLightGreenTimeMax());
 		this._greenTime = Math.round(Math.max(_propertyBag.getTrafficLightGreenTimeMin(), this.getGreenTime()));
@@ -18,9 +20,9 @@ public class Light implements Agent {
 	} 
 	
 	public void run(double time) {
-		if (time%40==0) {
 			_state = !_state;
-		}
+			this._time.enqueue(this._time.currentTime() + this._greenTime, this);
+		
 	}
 	public CarAcceptor getCurrentRoad() {
 		// TODO Auto-generated method stub

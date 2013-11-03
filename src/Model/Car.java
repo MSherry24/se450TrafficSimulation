@@ -11,8 +11,9 @@ public class Car implements Agent {
 	private Double _stopDistance;
 	private Double _timestep;
 	private Color _color;
+	private TimeServer _time;
 
-	public Car(PropertyBag propertyBag) {
+	public Car(PropertyBag propertyBag, TimeServer time) {
 		this._brakeDistance = Math.random() * propertyBag.getCarBrakeDistanceMax();
 		this._brakeDistance = Math.max(propertyBag.getCarBrakeDistanceMin(), this._brakeDistance);
 		
@@ -28,6 +29,8 @@ public class Car implements Agent {
 		this._color = new java.awt.Color(255,191,100);
 		this._timestep = propertyBag.getTimeStep();	
 		this._frontPosition = 0.0;
+		
+		this._time = time;
 	}
 
 	public void setFrontPosition(Double position) {
@@ -35,7 +38,6 @@ public class Car implements Agent {
 		if (position > roadEnd) {
 			this._currentRoad.getNextRoad().accept(this, position - roadEnd);
 			this._currentRoad.remove(this);
-			this._currentRoad = null;
 			return;
 		}
 		else {
@@ -76,7 +78,8 @@ public class Car implements Agent {
 		// calculate newVelocity
 		// calculate newFrontPosition
 		Double currentVelocity = getCurrentVelocity();
-		setFrontPosition(currentVelocity); 
+		setFrontPosition(currentVelocity);
+		this._time.enqueue(this._time.currentTime() + this._timestep, this);
 
 	}
 	

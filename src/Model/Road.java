@@ -46,7 +46,7 @@ public class Road implements CarAcceptor {
 			if (nextRoad == null) {
 				nextRoad = new Sink();
 			}
-			obstaclePosition = nextRoad.distanceToObstacle(distanceToEnd);
+			obstaclePosition = nextRoad.distanceToObstacle(0.0) + distanceToEnd;
 		}
 		return obstaclePosition-fromPosition;	
 	}
