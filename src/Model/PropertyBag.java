@@ -10,8 +10,8 @@ public class PropertyBag {
 	private Integer gridRow = 2;
 	private Integer gridColumn = 1;
 	private TrafficType trafficPattern = TrafficType.ALTERNATING;
-	private Double carGenerationDelayMin = 50.0;
-	private Double carGenerationDelayMax = 50.0;
+	private Double carGenerationDelayMin = 0.5;
+	private Double carGenerationDelayMax = 10.0;
 	private Double roadSegmentLengthMin = 200.0;
 	private Double roadSegmentLengthMax = 500.0;
 	private Double intersectionLengthMin = 10.0;
@@ -222,7 +222,8 @@ public class PropertyBag {
 		b.append("Simulation time step (seconds)        [" + this.getTimeStep() + "]\n");
 		b.append("Simulation run time (seconds)        [" + this.getRunTime() + "]\n");
 		b.append("Grid size (number of roads)          [row=" + this.getGridRow() + ",column=" + this.getGridColumn() + "]\n");
-		b.append("Traffic pattern                      [" + this.getTrafficPattern() + "]\n");
+		String pattern = (this.getTrafficPattern() == TrafficType.ALTERNATING ? "Alternating" : "Simple");
+		b.append("Traffic pattern                      [" + pattern + "]\n");
 		b.append("Car entry rate (seconds/car)         [min=" + this.getCarGenerationDelayMin() + ",max=" + this.getCarGenerationDelayMax() + "]\n");
 		b.append("Road segment length (meters)         [min=" + this.getRoadSegmentLengthMin() + ",max=" + this.getRoadSegmentLengthMax() + "]\n");
 		b.append("Intersection length (meters)         [min=" + this.getIntersectionLengthMin() + ",max=" + this.getIntersectionLengthMax() + "]\n");
