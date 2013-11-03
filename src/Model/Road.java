@@ -73,9 +73,6 @@ public class Road implements CarAcceptor {
 	}
 	
 	public void setNextRoad(CarAcceptor nextRoad) {
-		if (this.nextRoad != null) {
-			throw new IllegalArgumentException();
-		}
 		this.nextRoad = nextRoad;
 	}
 }

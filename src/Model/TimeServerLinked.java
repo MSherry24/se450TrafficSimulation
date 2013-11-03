@@ -82,12 +82,10 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 	public void run(double duration) {
 		double endtime = _currentTime + duration;
 		while ((!empty()) && (_head.next.waketime <= endtime)) {
-			if ((_currentTime - _head.next.waketime) > 1e-09) {
-				super.setChanged();
-				super.notifyObservers();
-			}
 			_currentTime = _head.next.waketime;
 			dequeue().run(duration);
+			super.setChanged();
+			super.notifyObservers();
 		}
 		_currentTime = endtime;
 	}

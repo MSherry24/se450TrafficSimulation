@@ -117,6 +117,11 @@ class Control {
 				model.run(propertyBag.getRunTime());
 				model.dispose();
 				_state = START;
+				
+//				Model model = new Model(new TextAnimatorBuilder(), propertyBag.getGridRow(), propertyBag.getGridColumn(), propertyBag);
+//				model.run(propertyBag.getRunTime());
+//				model.dispose();
+//				_state = START;
 			}
 		});
 		m.add("Change Simulation Parameters", new UIMenuAction() {

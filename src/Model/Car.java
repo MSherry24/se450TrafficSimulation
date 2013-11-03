@@ -10,6 +10,7 @@ public class Car implements Agent {
 	private Double _maxVelocity;
 	private Double _stopDistance;
 	private Double _timestep;
+	private Integer _roadSegmentsTraversed;
 	private Color _color;
 	private TimeServer _time;
 
@@ -29,6 +30,7 @@ public class Car implements Agent {
 		this._color = new java.awt.Color(255,191,100);
 		this._timestep = propertyBag.getTimeStep();	
 		this._frontPosition = 0.0;
+		this._roadSegmentsTraversed = 0;
 		
 		this._time = time;
 	}
@@ -36,8 +38,10 @@ public class Car implements Agent {
 	public void setFrontPosition(Double position) {
 		Double roadEnd = this._currentRoad.getEndPosition();
 		if (position > roadEnd) {
+			Road currentRoad = this._currentRoad;
 			this._currentRoad.getNextRoad().accept(this, position - roadEnd);
-			this._currentRoad.remove(this);
+			currentRoad.remove(this);
+			this._roadSegmentsTraversed++;
 			return;
 		}
 		else {
@@ -113,5 +117,10 @@ public class Car implements Agent {
 	
 	public Double getTimeStep() {
 		return this._timestep;
+	}
+
+	public double getRoadSegmentsTraversed() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

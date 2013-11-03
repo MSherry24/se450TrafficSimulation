@@ -5,13 +5,13 @@ public class PropertyBag {
 		ALTERNATING, SIMPLE
 	}
 
-	private Double timeStep = 0.1;
+	private Double timeStep = 1.0;
 	private Double runTime = 1000.0;
-	private Integer gridRow = 1;
+	private Integer gridRow = 2;
 	private Integer gridColumn = 1;
 	private TrafficType trafficPattern = TrafficType.ALTERNATING;
-	private Double carGenerationDelayMin = 2.0;
-	private Double carGenerationDelayMax = 25.0;
+	private Double carGenerationDelayMin = 50.0;
+	private Double carGenerationDelayMax = 50.0;
 	private Double roadSegmentLengthMin = 200.0;
 	private Double roadSegmentLengthMax = 500.0;
 	private Double intersectionLengthMin = 10.0;

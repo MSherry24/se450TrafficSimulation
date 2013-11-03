@@ -62,6 +62,7 @@ public class Model extends Observable {
 		setup(builder, rows, columns);
 		_animator = builder.getAnimator();
 		super.addObserver(_animator);
+		this._time.addObserver(_animator);
 	}
 
 	/**
