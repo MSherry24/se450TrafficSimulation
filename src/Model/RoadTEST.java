@@ -30,7 +30,7 @@ public class RoadTEST extends TestCase {
 		Assert.assertTrue(r1.getEndPosition() <= propertyBag.getRoadSegmentLengthMax());
 		Assert.assertTrue(r1.getEndPosition() >= propertyBag.getRoadSegmentLengthMin());
 		r1.setNextRoad(r2);
-		Assert.assertEquals(r1.getNextRoad(), r2);
+		Assert.assertEquals(r1.getNextRoad(null), r2);
 	}
 
 	public void testCarAcceptAndRemove() {

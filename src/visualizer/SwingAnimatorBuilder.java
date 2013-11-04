@@ -108,7 +108,8 @@ public class SwingAnimatorBuilder implements AnimatorBuilder {
           g.setColor(d.getColor());
           XGraphics.fillOval(g, 
         		  e.t, 
-        		  (MP.roadLength * d.getRoadSegmentsTraversed()) + (d.getFrontPosition() * (MP.roadLength / d.getCurrentRoad().getEndPosition())), 
+        		  //(MP.roadLength * d.getRoadSegmentsTraversed()) + 
+        		  (d.getFrontPosition() * (MP.roadLength / d.getCurrentRoad().getEndPosition())), 
         		  0, 
         		  MP.carLength, 
         		  VP.elementWidth);

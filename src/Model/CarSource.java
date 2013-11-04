@@ -27,7 +27,13 @@ public class CarSource implements Agent {
 		if (this._nextRoad == null) {
 			throw new NullPointerException("Next Road Was Not Set");
 		}
-		if (this._nextRoad.distanceToObstacle(0.0, c.getOrientation()) > c.getLength()) {
+		Boolean blocker = false;
+		for (Car e : this._nextRoad.getCars()) {
+			if (e.getFrontPosition() <= c.getLength() + c.getStopDistance()) {
+				blocker = true;
+			}
+		}
+		if (blocker == false) {
 			this._nextRoad.accept(c, 0.0);
 			this._time.enqueue(this._time.currentTime() + this._propertyBag.getTimeStep(), c);
 		}

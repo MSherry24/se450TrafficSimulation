@@ -7,10 +7,10 @@ public class PropertyBag {
 
 	private Double timeStep = 1.0;
 	private Double runTime = 1000.0;
-	private Integer gridRow = 2;
+	private Integer gridRow = 1;
 	private Integer gridColumn = 1;
 	private TrafficType trafficPattern = TrafficType.ALTERNATING;
-	private Double carGenerationDelayMin = 0.5;
+	private Double carGenerationDelayMin = 10.0;
 	private Double carGenerationDelayMax = 10.0;
 	private Double roadSegmentLengthMin = 200.0;
 	private Double roadSegmentLengthMax = 500.0;

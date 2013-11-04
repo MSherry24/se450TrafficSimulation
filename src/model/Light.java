@@ -96,15 +96,69 @@ public class Light implements Agent, CarAcceptor{
 		}
 	}
 
+	@Override
+	public Double distanceToObstacle(Double fromPosition,
+			Orientation orientation) {
+		if (orientation == Orientation.EW) {
+			if (this._lightState == LightState.EWGREEN || this._lightState == LightState.EWYELLOW) {
+				double obstaclePosition = this.distanceToObstacleBack(fromPosition, this._carsEW);
+				if (obstaclePosition == Double.POSITIVE_INFINITY) {
+					double distanceToEnd = this._endPosition - fromPosition;
+					obstaclePosition = _nextRoadEW.distanceToObstacle(0.0, Orientation.EW) + distanceToEnd;
+				}
+				return obstaclePosition-fromPosition;	
+			}
+			else {
+				return 0.0;
+			}
+		}
 
-
-	public CarAcceptor getNextRoad() {
-		return this._nextRoadEW;
+		else {
+			if (this._lightState == LightState.NSGREEN || this._lightState == LightState.NSYELLOW) {
+				double obstaclePosition = this.distanceToObstacleBack(fromPosition, this._carsNS);
+				if (obstaclePosition == Double.POSITIVE_INFINITY) {
+					double distanceToEnd = this._endPosition - fromPosition;
+					obstaclePosition = _nextRoadNS.distanceToObstacle(0.0, Orientation.NS) + distanceToEnd;
+				}
+				return obstaclePosition-fromPosition;	
+			}
+			else {
+				return 0.0;
+			}
+		}
 	}
 
+	private Double distanceToObstacleBack(Double fromPosition, Set<Car> cars) {
+		double carBackPosition = Double.POSITIVE_INFINITY;
+		for (Car c : cars)
+			if (c.getBackPosition() >= fromPosition &&
+			c.getBackPosition() < carBackPosition)
+				carBackPosition = c.getBackPosition();
+		return carBackPosition;
+	}
+
+
+	public CarAcceptor getNextRoad(Orientation orientation) {
+		if (orientation == orientation.EW){
+			return this._nextRoadEW;
+		}
+		return this._nextRoadNS;
+	}
+
+	public void setNextRoad(CarAcceptor nextRoad, Orientation orientation) {
+		if (orientation == Orientation.EW) {
+			this._nextRoadEW = nextRoad;
+		}
+		this._nextRoadNS = nextRoad;
+	}
+	
 	public boolean remove(Car car) {
 		if (this._carsEW.contains(car)) {
 			this._carsEW.remove(car);
+			return true;
+		}
+		if (this._carsNS.contains(car)) {
+			this._carsNS.remove(car);
 			return true;
 		}
 		else {
@@ -118,7 +172,7 @@ public class Light implements Agent, CarAcceptor{
 	}
 
 	public CarAcceptor getCurrentRoad() {
-		return null;
+		return this;
 	}
 	public LightState getLightState() {
 		return _lightState;
@@ -164,46 +218,10 @@ public class Light implements Agent, CarAcceptor{
 		return Orientation.NS;
 	}
 
-	@Override
-	public Double distanceToObstacle(Double fromPosition,
-			Orientation orientation) {
-		if (orientation == Orientation.EW) {
-			if (this._lightState == LightState.EWGREEN || this._lightState == LightState.EWYELLOW) {
-				double obstaclePosition = this.distanceToObstacleBack(fromPosition, this._carsEW);
-				if (obstaclePosition == Double.POSITIVE_INFINITY) {
-					double distanceToEnd = this._endPosition - fromPosition;
-					obstaclePosition = _nextRoadEW.distanceToObstacle(0.0, Orientation.EW) + distanceToEnd;
-				}
-				return obstaclePosition-fromPosition;	
-			}
-			else {
-				return 0.0;
-			}
-		}
-		
-		else {
-			if (this._lightState == LightState.NSGREEN || this._lightState == LightState.NSYELLOW) {
-				double obstaclePosition = this.distanceToObstacleBack(fromPosition, this._carsNS);
-				if (obstaclePosition == Double.POSITIVE_INFINITY) {
-					double distanceToEnd = this._endPosition - fromPosition;
-					obstaclePosition = _nextRoadNS.distanceToObstacle(0.0, Orientation.NS) + distanceToEnd;
-				}
-				return obstaclePosition-fromPosition;	
-			}
-			else {
-				return 0.0;
-			}
-		}
-	}
-	
-	private Double distanceToObstacleBack(Double fromPosition, Set<Car> cars) {
-		double carBackPosition = Double.POSITIVE_INFINITY;
-		for (Car c : cars)
-			if (c.getBackPosition() >= fromPosition &&
-			c.getBackPosition() < carBackPosition)
-				carBackPosition = c.getBackPosition();
-		return carBackPosition;
-	}
+
+
+
+
 
 
 }

@@ -10,9 +10,6 @@ public class Road implements CarAcceptor {
 	private Set<Car> _cars;
 	private Double _endPosition;
 	private CarAcceptor _nextRoad;
-//	private Orientation _orientation;
-	
-	
 
 	public Road(PropertyBag propertyBag) {
 		this._endPosition = Math.random() * propertyBag.getRoadSegmentLengthMax();
@@ -50,7 +47,7 @@ public class Road implements CarAcceptor {
 			double distanceToEnd = this._endPosition - fromPosition;
 			obstaclePosition = _nextRoad.distanceToObstacle(0.0, orientation) + distanceToEnd;
 		}
-		return obstaclePosition-fromPosition;	
+		return obstaclePosition;	
 	}
 	
 	private Double distanceToObstacleBack(Double fromPosition) {
@@ -70,7 +67,7 @@ public class Road implements CarAcceptor {
 		return _endPosition;
 	}
 
-	public CarAcceptor getNextRoad() {
+	public CarAcceptor getNextRoad(Orientation orientation) {
 		return _nextRoad;
 	}
 	
@@ -78,8 +75,5 @@ public class Road implements CarAcceptor {
 		this._nextRoad = nextRoad;
 	}
 	
-//	public Orientation getOrientation() {
-//		return this._orientation;
-//	}
 }
 

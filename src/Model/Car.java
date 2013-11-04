@@ -20,9 +20,7 @@ public class Car implements Agent {
 	}
 
 	public Car(PropertyBag propertyBag, TimeServer time, Orientation orientation) {
-		this._brakeDistance = Math.random() * propertyBag.getCarBrakeDistanceMax();
-		this._brakeDistance = Math.max(propertyBag.getCarBrakeDistanceMin(), this._brakeDistance);
-		
+				
 		this._length = Math.random() * propertyBag.getCarLengthMax();
 		this._length = Math.max(propertyBag.getCarLengthMin(), this._length);
 		
@@ -31,6 +29,12 @@ public class Car implements Agent {
 				
 		this._stopDistance = Math.random() * propertyBag.getCarStopDistanceMax();
 		this._stopDistance = Math.max(propertyBag.getCarStopDistanceMin(), this._stopDistance);
+		this._stopDistance = Math.max(propertyBag.getCarLengthMax() / 2, this._stopDistance);
+		
+		
+		this._brakeDistance = Math.random() * propertyBag.getCarBrakeDistanceMax();
+		this._brakeDistance = Math.max(propertyBag.getCarBrakeDistanceMin(), this._brakeDistance);
+		this._brakeDistance = Math.max(this._stopDistance, this._brakeDistance);
 		
 		this._color = new java.awt.Color(255,191,100);
 		this._timestep = propertyBag.getTimeStep();	
@@ -45,7 +49,7 @@ public class Car implements Agent {
 		Double roadEnd = this._currentRoad.getEndPosition();
 		if (position > roadEnd) {
 			CarAcceptor currentRoad = this._currentRoad;
-			this._currentRoad.getNextRoad().accept(this, position - roadEnd);
+			this._currentRoad.getNextRoad(this._orientation).accept(this, position - roadEnd);
 			currentRoad.remove(this);
 			this._roadSegmentsTraversed++;
 			return;

@@ -140,7 +140,7 @@ public class Model extends Observable {
 					previousRoad.setNextRoad(l);
 					previousRoad = l;
 				}
-				if (i == columns) {
+				if (i == rows) {
 					l.setNextRoad(new Sink());
 				}
 				builder.addVerticalRoad(l, i, j, southToNorth);

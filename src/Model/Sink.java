@@ -17,7 +17,7 @@ public class Sink implements CarAcceptor {
 		return Double.POSITIVE_INFINITY;
 	}
 
-	public CarAcceptor getNextRoad() {
+	public CarAcceptor getNextRoad(Orientation orientation) {
 		return null;
 	}
 
