@@ -100,6 +100,30 @@ public class Model extends Observable {
 				_time.enqueue(this._time.currentTime(), intersections[i][j]);
 			}
 		}
+		
+//		// Add Horizontal Roads With Lights
+//		boolean eastToWest = false;
+//		for (int i=0; i<rows; i++) {
+//			CarSource carsource = new CarSource(this._propertyBag, this._time, Orientation.EW);
+//			for (int j=0; j<=columns; j++) {
+//				Road l = new Road(_propertyBag);
+//				if (j == 0) {
+//					carsource.setNextRoad(l);
+//					l.setNextRoad(intersections[i][j]);
+//				}
+//				else if (j == columns) {
+//					l.setNextRoad(new Sink());
+//				}
+//				else {
+//					intersections[i][j-1].setNextRoad(l, Orientation.EW);
+//					l.setNextRoad(intersections[i][j]);
+//				}
+//
+//				builder.addHorizontalRoad(l, i, j, eastToWest);
+//				roads.add(l);
+//			}
+//			eastToWest = !eastToWest;
+//		}
 
 		// Add Horizontal Roads
 		boolean eastToWest = false;

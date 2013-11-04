@@ -58,6 +58,8 @@ public class CarTEST extends TestCase {
 	public void testVelocity() {
 		c1 = new Car(propertyBag, t1, Orientation.EW);
 		r1 = new Road(propertyBag);
+		Sink s1 = new Sink();
+		r1.setNextRoad(s1);
 		r1.accept(c1, c1.getFrontPosition());
 		c1.run(1);
 		Assert.assertTrue(c1.getFrontPosition() > 0);	
