@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.Comparator;
 
 import model.PropertyBag;
+import model.PropertyBag.TrafficType;
 
 class Control {
 	private static final int EXITED = 0;
@@ -77,31 +78,31 @@ class Control {
 			_ui.displayError("UI closed");
 		}
 	}
-	
-	private Double buildDoubleForm(String element) {
+
+	private Double buildDoubleForm(String title, String prompt) {
 		UIFormBuilder form = new UIFormBuilder();
-		form.add(element, _numberTest);
+		form.add(title, _numberTest);
 
 		UIForm _getForm = form
-				.toUIForm("Enter New Value:");
+				.toUIForm(prompt);
 		String[] result1 = _ui.processForm(_getForm);
 		Double newValue = Double.parseDouble(result1[0]);
-		
+
 		return newValue;
 	}
 
-	private Integer buildIntegerForm(String element) {
+	private Integer buildIntegerForm(String title, String prompt) {
 		UIFormBuilder form = new UIFormBuilder();
-		form.add(element, _numberTest);
+		form.add(title, _numberTest);
 
 		UIForm _getForm = form
-				.toUIForm("Enter New Value:");
+				.toUIForm(prompt);
 		String[] result1 = _ui.processForm(_getForm);
 		Integer newValue = Integer.parseInt(result1[0]);
-		
+
 		return newValue;
 	}
-	
+
 	private void addSTART(int stateNum) {
 		UIMenuBuilder m = new UIMenuBuilder();
 
@@ -117,11 +118,11 @@ class Control {
 				model.run(propertyBag.getRunTime());
 				model.dispose();
 				_state = START;
-				
-//				Model model = new Model(new TextAnimatorBuilder(), propertyBag.getGridRow(), propertyBag.getGridColumn(), propertyBag);
-//				model.run(propertyBag.getRunTime());
-//				model.dispose();
-//				_state = START;
+
+				//				Model model = new Model(new TextAnimatorBuilder(), propertyBag.getGridRow(), propertyBag.getGridColumn(), propertyBag);
+				//				model.run(propertyBag.getRunTime());
+				//				model.dispose();
+				//				_state = START;
 			}
 		});
 		m.add("Change Simulation Parameters", new UIMenuAction() {
@@ -153,83 +154,167 @@ class Control {
 		});
 		m.add("Simulation time step", new UIMenuAction() {
 			public void run() {
-				Double newValue = buildDoubleForm("Time Step");
+				Double newValue = buildDoubleForm("Time Step", "Enter New Value:");
 				propertyBag.setTimeStep(newValue);
 			}
 
-			
+
 		});
 		m.add("Simulation run time", new UIMenuAction() {
 			public void run() {
-				Double newValue = buildDoubleForm("Run Time");
+				Double newValue = buildDoubleForm("Run Time", "Enter New Value:");
 				propertyBag.setRunTime(newValue);
 			}
 		});
 		m.add("Grid size", new UIMenuAction() {
 			public void run() {
-				Integer newRowValue = buildIntegerForm("Grid Rows");
+				Integer newRowValue = buildIntegerForm("Grid Rows", "Enter New Value:");
 				propertyBag.setGridRow(newRowValue);
-				
-				Integer newColumnValue = buildIntegerForm("Grid Columns");
+
+				Integer newColumnValue = buildIntegerForm("Grid Columns", "Enter New Value:");
 				propertyBag.setGridColumn(newColumnValue);
 			}
 		});
 		m.add("Traffic pattern", new UIMenuAction() {
 			public void run() {
-				// TODO
+				String title = "Traffic Pattern";
+				String incorrectValue = "Traffic Pattern, Invalid Input";
+				String prompt = "Enter New Value: \n1 for alternating, 2 for Simple";
+				Integer newPatternValue = buildIntegerForm(title, prompt);
+				while (newPatternValue != 1 && newPatternValue != 2) {
+					newPatternValue = buildIntegerForm(incorrectValue, prompt);
+				}
+				if (newPatternValue == 1) {
+					propertyBag.setTrafficPattern(TrafficType.ALTERNATING);
+				}
+				if (newPatternValue == 2) {
+					propertyBag.setTrafficPattern(TrafficType.SIMPLE);
+				}
 			}
 		});
 		m.add("Car entry rate", new UIMenuAction() {
 			public void run() {
-				// TODO
+				String titleMax = "Car Entry Rate Max";
+				String titleMin = "Car Entry Rate Min";
+				String prompt = "Enter New Value";
+
+				Double newValueMax = buildDoubleForm(titleMax, prompt);
+				propertyBag.setCarGenerationDelayMax(newValueMax);
+
+				Double newValueMin = buildDoubleForm(titleMin, prompt);
+				propertyBag.setCarGenerationDelayMin(newValueMin);	
 			}
 		});
 		m.add("Road segment length", new UIMenuAction() {
 			public void run() {
-				// TODO
+				String titleMax = "Road Length Max";
+				String titleMin = "Road Length Min";
+				String prompt = "Enter New Value";
+
+				Double newValueMax = buildDoubleForm(titleMax, prompt);
+				propertyBag.setRoadSegmentLengthMax(newValueMax);
+
+				Double newValueMin = buildDoubleForm(titleMin, prompt);
+				propertyBag.setRoadSegmentLengthMin(newValueMin);		
 			}
 		});
 		m.add("Intersection length", new UIMenuAction() {
 			public void run() {
-				// TODO
+				String titleMax = "Intersection Length Max";
+				String titleMin = "Intersection Length Min";
+				String prompt = "Enter New Value";
+
+				Double newValueMax = buildDoubleForm(titleMax, prompt);
+				propertyBag.setIntersectionLengthMax(newValueMax);
+
+				Double newValueMin = buildDoubleForm(titleMin, prompt);
+				propertyBag.setIntersectionLengthMin(newValueMin);			
 			}
 		});
 		m.add("Car length", new UIMenuAction() {
 			public void run() {
-				// TODO
+				String titleMax = "Car Length Max";
+				String titleMin = "Car Length Min";
+				String prompt = "Enter New Value";
+
+				Double newValueMax = buildDoubleForm(titleMax, prompt);
+				propertyBag.setCarLengthMax(newValueMax);
+
+				Double newValueMin = buildDoubleForm(titleMin, prompt);
+				propertyBag.setCarLengthMin(newValueMin);	
 			}
 		});
 		m.add("Car maximum velocity", new UIMenuAction() {
 			public void run() {
-				// TODO
+				String titleMax = "Car Maximum Velocity Max";
+				String titleMin = "Car Minimum Velocity Min";
+				String prompt = "Enter New Value";
+
+				Double newValueMax = buildDoubleForm(titleMax, prompt);
+				propertyBag.setCarMaxVelocityMax(newValueMax);
+
+				Double newValueMin = buildDoubleForm(titleMin, prompt);
+				propertyBag.setCarMaxVelocityMin(newValueMin);
 			}
 		});
 		m.add("Car stop distance", new UIMenuAction() {
 			public void run() {
-				// TODO
+				String titleMax = "Car Stop Distance Max";
+				String titleMin = "Car Stop Distance Min";
+				String prompt = "Enter New Value";
+
+				Double newValueMax = buildDoubleForm(titleMax, prompt);
+				propertyBag.setCarStopDistanceMax(newValueMax);
+
+				Double newValueMin = buildDoubleForm(titleMin, prompt);
+				propertyBag.setCarStopDistanceMin(newValueMin);	
 			}
 		});
 		m.add("Car brake distance", new UIMenuAction() {
 			public void run() {
-				// TODO
+				String titleMax = "Car Brake Distance Max";
+				String titleMin = "Car Brake Distance Min";
+				String prompt = "Enter New Value";
+
+				Double newValueMax = buildDoubleForm(titleMax, prompt);
+				propertyBag.setCarBrakeDistanceMax(newValueMax);
+
+				Double newValueMin = buildDoubleForm(titleMin, prompt);
+				propertyBag.setCarBrakeDistanceMin(newValueMin);			
 			}
 		});
 		m.add("Traffic light green time", new UIMenuAction() {
 			public void run() {
-				// TODO
+				String titleMax = "Traffic Light Green Time Max";
+				String titleMin = "Traffic Light Green Time Min";
+				String prompt = "Enter New Value";
+
+				Double newValueMax = buildDoubleForm(titleMax, prompt);
+				propertyBag.setTrafficLightGreenTimeMax(newValueMax);
+
+				Double newValueMin = buildDoubleForm(titleMin, prompt);
+				propertyBag.setTrafficLightYellowTimeMin(newValueMin);		
 			}
 		});
 		m.add("Traffic light yellow time", new UIMenuAction() {
 			public void run() {
-				// TODO
+				String titleMax = "Traffic Light Yellow Time Max";
+				String titleMin = "Traffic Light Yellow Time Min";
+				String prompt = "Enter New Value";
+
+				Double newValueMax = buildDoubleForm(titleMax, prompt);
+				propertyBag.setTrafficLightYellowTimeMax(newValueMax);
+
+				Double newValueMin = buildDoubleForm(titleMin, prompt);
+				propertyBag.setTrafficLightYellowTimeMin(newValueMin);		
 			}
 		});
 		m.add("Reset simulation and return to the main menu",
 				new UIMenuAction() {
-					public void run() {
-						_state = START;
-					}
-				});
+			public void run() {
+				_state = START;
+			}
+		});
 
 		_menus[stateNum] = m.toUIMenu("Settings Menu");
 
