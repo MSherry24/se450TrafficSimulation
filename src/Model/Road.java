@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import model.Car.Orientation;
+import model.Light.LightState;
 
 public class Road implements CarAcceptor {
 
@@ -45,6 +46,19 @@ public class Road implements CarAcceptor {
 		double obstaclePosition = this.distanceToObstacleBack(fromPosition);
 		if (obstaclePosition == Double.POSITIVE_INFINITY) {
 			double distanceToEnd = this._endPosition - fromPosition;
+
+			if (this._nextRoad instanceof Light) {
+				if (orientation == Orientation.NS && 
+						(((Light) this._nextRoad).getLightState() == LightState.EWGREEN ||
+						((Light) this._nextRoad).getLightState() == LightState.EWYELLOW)) {
+					return distanceToEnd;
+				}
+				if (orientation == Orientation.EW && 
+						(((Light) this._nextRoad).getLightState() == LightState.NSGREEN ||
+						((Light) this._nextRoad).getLightState() == LightState.NSYELLOW)) {
+					return distanceToEnd;
+				}
+			}
 			obstaclePosition = _nextRoad.distanceToObstacle(0.0, orientation) + distanceToEnd;
 		}
 		return obstaclePosition;	

@@ -36,7 +36,7 @@ public class Car implements Agent {
 		this._brakeDistance = Math.max(propertyBag.getCarBrakeDistanceMin(), this._brakeDistance);
 		this._brakeDistance = Math.max(this._stopDistance, this._brakeDistance);
 		
-		this._color = new java.awt.Color(255,191,100);
+		this._color = getRandomColor();
 		this._timestep = propertyBag.getTimeStep();	
 		this._frontPosition = 0.0;
 		this._roadSegmentsTraversed = 0;
@@ -74,7 +74,7 @@ public class Car implements Agent {
 			return this._frontPosition + this._maxVelocity * this._timestep;
 		}
 		if (distanceToObstacle < this._maxVelocity && 
-				distanceToObstacle > this._brakeDistance)
+				(distanceToObstacle > this._brakeDistance || distanceToObstacle > this._stopDistance))
 			velocity = distanceToObstacle / 2;
 		else {
 			velocity = (this._maxVelocity / (this._brakeDistance - this._stopDistance))
@@ -135,5 +135,29 @@ public class Car implements Agent {
 	
 	public Orientation getOrientation() {
 		return this._orientation;
+	}
+	
+	private Color getRandomColor() {
+		Color newColor;
+		
+		Color a = new java.awt.Color(255,191,100);
+		Color b = new java.awt.Color(255,255,51);
+		Color c = new java.awt.Color(51,255,255);
+		Color d = new java.awt.Color(255,102,178);
+
+		Double r = Math.random();
+		
+		if (r < 0.25) {
+			return a;
+		}
+		if (r < 0.5) {
+			return b;
+		}
+		if (r < 0.75) {
+			return c;
+		}
+		return d;
+
+		
 	}
 }
