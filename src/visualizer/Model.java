@@ -9,6 +9,7 @@ import model.Car;
 import model.CarSource;
 import model.Light;
 import model.PropertyBag;
+import model.PropertyBag.TrafficType;
 import model.Road;
 import model.Car.Orientation;
 import model.Sink;
@@ -100,7 +101,7 @@ public class Model extends Observable {
 				_time.enqueue(this._time.currentTime(), intersections[i][j]);
 			}
 		}
-		
+
 		// Add Horizontal Roads With Lights
 		boolean eastToWest = false;
 		for (int i=0; i<rows; i++) {
@@ -123,55 +124,36 @@ public class Model extends Observable {
 				builder.addHorizontalRoad(l, i, j, eastToWest);
 				roads.add(l);
 			}
-			eastToWest = !eastToWest;
+			if (_propertyBag.getTrafficPattern() == TrafficType.ALTERNATING) {
+				eastToWest = !eastToWest;
+			}
 		}
 
-//		// Add Horizontal Roads
-//		boolean eastToWest = false;
-//		for (int i=0; i<rows; i++) {
-//			CarSource carsource = new CarSource(this._propertyBag, this._time, Orientation.EW);
-//			Road previousRoad = new Road(this._propertyBag);
-//			for (int j=0; j<=columns; j++) {
-//				Road l = new Road(_propertyBag);
-//				if (j == 0) {
-//					carsource.setNextRoad(l);
-//					previousRoad = l;
-//				}
-//				else {
-//					previousRoad.setNextRoad(l);
-//					previousRoad = l;
-//				}
-//				if (j == columns) {
-//					l.setNextRoad(new Sink());
-//				}
-//				builder.addHorizontalRoad(l, i, j, eastToWest);
-//				roads.add(l);
-//			}
-//			eastToWest = !eastToWest;
-//		}
-//
-//		// Add Vertical Roads
-//		boolean southToNorth = false;
-//		for (int j=0; j<columns; j++) {
-//			CarSource carsource = new CarSource(this._propertyBag, this._time, Orientation.NS);
-//			Road previousRoad = new Road(this._propertyBag);
-//			for (int i=0; i<=rows; i++) {
-//				Road l = new Road(_propertyBag);
-//				if (i == 0) {
-//					carsource.setNextRoad(l);
-//					previousRoad = l;
-//				}
-//				else {
-//					previousRoad.setNextRoad(l);
-//					previousRoad = l;
-//				}
-//				if (i == rows) {
-//					l.setNextRoad(new Sink());
-//				}
-//				builder.addVerticalRoad(l, i, j, southToNorth);
-//				roads.add(l);
-//			}
-//			southToNorth = !southToNorth;
-//		}
+		//		 Add Vertical Roads With Lights
+		boolean southToNorth = false;
+		for (int j=0; j<columns; j++) {
+			CarSource carsource = new CarSource(this._propertyBag, this._time, Orientation.NS);
+			for (int i=0; i<=rows; i++) {
+				Road l = new Road(_propertyBag);
+				if (i == 0) {
+					carsource.setNextRoad(l);
+					l.setNextRoad(intersections[i][j]);	
+				}
+				else if (i == rows) {
+					intersections[i-1][j].setNextRoad(l, Orientation.NS);
+					l.setNextRoad(new Sink());
+				}
+				else {
+					intersections[i-1][j].setNextRoad(l, Orientation.NS);
+					l.setNextRoad(intersections[i][j]);
+				}
+
+				builder.addVerticalRoad(l, i, j, southToNorth);
+				roads.add(l);
+			}
+			if (_propertyBag.getTrafficPattern() == TrafficType.ALTERNATING) {
+				southToNorth = !southToNorth;
+			}
+		}
 	}
 }

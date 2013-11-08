@@ -60,8 +60,9 @@ public class Road implements CarAcceptor {
 				}
 			}
 			obstaclePosition = _nextRoad.distanceToObstacle(0.0, orientation) + distanceToEnd;
+			return obstaclePosition;
 		}
-		return obstaclePosition;	
+		return obstaclePosition - fromPosition;
 	}
 	
 	private Double distanceToObstacleBack(Double fromPosition) {
