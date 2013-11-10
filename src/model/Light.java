@@ -3,11 +3,14 @@ package model;
 import java.util.HashSet;
 import java.util.Set;
 
+import properties.PropertyBag;
+import timeserver.TimeServer;
+
 import model.Car.Orientation;
 
 public class Light implements Agent, CarAcceptor{
 
-	private PropertyBag _propertyBag;
+	private PropertyBag _propertyBag = PropertyBag.makePropertyBag();
 	private TimeServer _time;
 	private boolean _state;
 	private LightState _lightState;
@@ -27,12 +30,11 @@ public class Light implements Agent, CarAcceptor{
 		NSGREEN, NSYELLOW, EWGREEN, EWYELLOW
 	}
 
-	public Light(PropertyBag propertyBag, TimeServer time) {
-		this._propertyBag = propertyBag;
-		this._time = time;
+	public Light() {
+		this._time = this._propertyBag.getTimeServer();
 
-		this._endPosition = Math.random() * propertyBag.getIntersectionLengthMax();
-		this._endPosition = Math.max(this._endPosition, propertyBag.getIntersectionLengthMin());
+		this._endPosition = Math.random() * this._propertyBag.getIntersectionLengthMax();
+		this._endPosition = Math.max(this._endPosition, this._propertyBag.getIntersectionLengthMin());
 		this._carsNS = new HashSet<Car>();
 		this._carsEW = new HashSet<Car>();
 
@@ -139,7 +141,7 @@ public class Light implements Agent, CarAcceptor{
 
 
 	public CarAcceptor getNextRoad(Orientation orientation) {
-		if (orientation == orientation.EW){
+		if (orientation == Orientation.EW){
 			return this._nextRoadEW;
 		}
 		return this._nextRoadNS;

@@ -5,11 +5,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
+
+import properties.PropertyBag;
 import visualizer.AnimatorBuilder;
 import model.Car;
 import model.Light;
 import model.MP;
-import model.PropertyBag;
 import model.Road;
 import visualizer.Animator;
 import visualizer.SwingAnimator;

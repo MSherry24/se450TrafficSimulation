@@ -1,12 +1,13 @@
-package model;
+package timeserver;
 
+import model.Agent;
+import model.CarAcceptor;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+@SuppressWarnings("deprecation")
 public class TimeServerTEST extends TestCase {
 	TimeServerLinked q = new TimeServerLinked();
-
-	// TimeServerLinked q = new TimeServerLinked();
 
 	public TimeServerTEST(String name) {
 		super(name);

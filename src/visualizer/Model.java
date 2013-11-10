@@ -3,16 +3,21 @@ package visualizer;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Observer;
+
+import properties.PropertyBag;
+import timeserver.TimeServer;
 
 import model.Car;
 import model.CarSource;
 import model.Light;
+<<<<<<< HEAD
+=======
 import model.PropertyBag;
+import model.PropertyBag.TrafficType;
+>>>>>>> 79684bc1d89df4da73244ecf716b4ad139cc5e66
 import model.Road;
 import model.Car.Orientation;
 import model.Sink;
-import model.TimeServerLinked;
 
 
 /**
@@ -24,7 +29,7 @@ public class Model extends Observable {
 	private Animator _animator;
 	private boolean _disposed;
 	private PropertyBag _propertyBag;
-	private TimeServerLinked _time;
+	private TimeServer _time;
 
 	/** Creates a model to be visualized using the <code>builder</code>.
 	 *  If the builder is null, no visualization is performed.
@@ -51,14 +56,13 @@ public class Model extends Observable {
 	 */
 	public Model(AnimatorBuilder builder, Integer rows, Integer columns, PropertyBag propertyBag) {
 		this._propertyBag = propertyBag;
-		this._time = new TimeServerLinked();
+		this._time = this._propertyBag.getTimeServer();
 		if (rows < 0 || columns < 0 || (rows == 0 && columns == 0)) {
 			throw new IllegalArgumentException();
 		}
 		if (builder == null) {
 			builder = new NullAnimatorBuilder();
 		}
-		//_agents = new ArrayList<Agent>();
 		setup(builder, rows, columns);
 		_animator = builder.getAnimator();
 		super.addObserver(_animator);
@@ -90,23 +94,22 @@ public class Model extends Observable {
 	private void setup(AnimatorBuilder builder, Integer rows, Integer columns) {
 		List<Road> roads = new ArrayList<Road>();
 		Light[][] intersections = new Light[rows][columns];
-		Boolean reverse;
 
 		// Add Lights
 		for (int i=0; i<rows; i++) {
 			for (int j=0; j<columns; j++) {
-				intersections[i][j] = new Light(this._propertyBag, this._time);
+				intersections[i][j] = new Light();
 				builder.addLight(intersections[i][j], i, j);
 				_time.enqueue(this._time.currentTime(), intersections[i][j]);
 			}
 		}
-		
+
 		// Add Horizontal Roads With Lights
 		boolean eastToWest = false;
 		for (int i=0; i<rows; i++) {
-			CarSource carsource = new CarSource(this._propertyBag, this._time, Orientation.EW);
+			CarSource carsource = new CarSource(Orientation.EW);
 			for (int j=0; j<=columns; j++) {
-				Road l = new Road(_propertyBag);
+				Road l = new Road();
 				if (j == 0) {
 					carsource.setNextRoad(l);
 					l.setNextRoad(intersections[i][j]);
@@ -123,55 +126,36 @@ public class Model extends Observable {
 				builder.addHorizontalRoad(l, i, j, eastToWest);
 				roads.add(l);
 			}
-			eastToWest = !eastToWest;
+			if (_propertyBag.getTrafficPattern() == TrafficType.ALTERNATING) {
+				eastToWest = !eastToWest;
+			}
 		}
 
-//		// Add Horizontal Roads
-//		boolean eastToWest = false;
-//		for (int i=0; i<rows; i++) {
-//			CarSource carsource = new CarSource(this._propertyBag, this._time, Orientation.EW);
-//			Road previousRoad = new Road(this._propertyBag);
-//			for (int j=0; j<=columns; j++) {
-//				Road l = new Road(_propertyBag);
-//				if (j == 0) {
-//					carsource.setNextRoad(l);
-//					previousRoad = l;
-//				}
-//				else {
-//					previousRoad.setNextRoad(l);
-//					previousRoad = l;
-//				}
-//				if (j == columns) {
-//					l.setNextRoad(new Sink());
-//				}
-//				builder.addHorizontalRoad(l, i, j, eastToWest);
-//				roads.add(l);
-//			}
-//			eastToWest = !eastToWest;
-//		}
-//
-//		// Add Vertical Roads
-//		boolean southToNorth = false;
-//		for (int j=0; j<columns; j++) {
-//			CarSource carsource = new CarSource(this._propertyBag, this._time, Orientation.NS);
-//			Road previousRoad = new Road(this._propertyBag);
-//			for (int i=0; i<=rows; i++) {
-//				Road l = new Road(_propertyBag);
-//				if (i == 0) {
-//					carsource.setNextRoad(l);
-//					previousRoad = l;
-//				}
-//				else {
-//					previousRoad.setNextRoad(l);
-//					previousRoad = l;
-//				}
-//				if (i == rows) {
-//					l.setNextRoad(new Sink());
-//				}
-//				builder.addVerticalRoad(l, i, j, southToNorth);
-//				roads.add(l);
-//			}
-//			southToNorth = !southToNorth;
-//		}
+		//		 Add Vertical Roads With Lights
+		boolean southToNorth = false;
+		for (int j=0; j<columns; j++) {
+			CarSource carsource = new CarSource(this._propertyBag, this._time, Orientation.NS);
+			for (int i=0; i<=rows; i++) {
+				Road l = new Road(_propertyBag);
+				if (i == 0) {
+					carsource.setNextRoad(l);
+					l.setNextRoad(intersections[i][j]);	
+				}
+				else if (i == rows) {
+					intersections[i-1][j].setNextRoad(l, Orientation.NS);
+					l.setNextRoad(new Sink());
+				}
+				else {
+					intersections[i-1][j].setNextRoad(l, Orientation.NS);
+					l.setNextRoad(intersections[i][j]);
+				}
+
+				builder.addVerticalRoad(l, i, j, southToNorth);
+				roads.add(l);
+			}
+			if (_propertyBag.getTrafficPattern() == TrafficType.ALTERNATING) {
+				southToNorth = !southToNorth;
+			}
+		}
 	}
 }

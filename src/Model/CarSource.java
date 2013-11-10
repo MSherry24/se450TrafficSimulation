@@ -1,29 +1,31 @@
 package model;
 
+import properties.PropertyBag;
+import timeserver.TimeServer;
 import model.Car.Orientation;
 
 public class CarSource implements Agent {
 	
-	private PropertyBag _propertyBag;
+	private PropertyBag _propertyBag = PropertyBag.makePropertyBag();
+
 	private Double _generateCarDelay;
 	private Road _nextRoad;
 	private TimeServer _time;
 	private Orientation _orientation;
 	
-	public CarSource(PropertyBag propertyBag, TimeServer time, Orientation orientation) {
-		this._propertyBag = propertyBag;
-		this._time = time;
+	public CarSource(Orientation orientation) {
+		this._time = this._propertyBag.getTimeServer();
 		this._orientation = orientation;
 		
-		this._generateCarDelay = Math.random() * propertyBag.getCarGenerationDelayMax();
-		this._generateCarDelay = Math.max(propertyBag.getCarGenerationDelayMin(), this._generateCarDelay);
+		this._generateCarDelay = Math.random() * _propertyBag.getCarGenerationDelayMax();
+		this._generateCarDelay = Math.max(_propertyBag.getCarGenerationDelayMin(), this._generateCarDelay);
 		
 		this._time.enqueue(this._time.currentTime(), this);
 	}
 
 	@Override
 	public void run(double _time) {
-		Car c = new Car(this._propertyBag, this._time, this._orientation);
+		Car c = new Car(this._orientation);
 		if (this._nextRoad == null) {
 			throw new NullPointerException("Next Road Was Not Set");
 		}
@@ -42,7 +44,6 @@ public class CarSource implements Agent {
 
 	@Override
 	public CarAcceptor getCurrentRoad() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

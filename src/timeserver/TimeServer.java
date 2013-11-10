@@ -1,4 +1,6 @@
-package model;
+package timeserver;
+
+import model.Agent;
 
 public interface TimeServer {
 	public double currentTime();

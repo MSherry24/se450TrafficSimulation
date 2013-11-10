@@ -1,7 +1,6 @@
 package main;
 
 import view.UI;
-import model.TimeServerLinked;
 
 public class Main {
   private Main() {}
