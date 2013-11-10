@@ -3,11 +3,9 @@ package visualizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 import visualizer.AnimatorBuilder;
 import model.Car;
 import model.Light;
-import model.MP;
 import model.Road;
 import visualizer.Animator;
 

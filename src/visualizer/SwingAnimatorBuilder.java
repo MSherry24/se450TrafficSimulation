@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import properties.PropertyBag;
 import visualizer.AnimatorBuilder;
 import model.Car;
 import model.Light;
@@ -21,7 +20,6 @@ import visualizer.SwingAnimatorPainter;
  */
 public class SwingAnimatorBuilder implements AnimatorBuilder {
   MyPainter _painter;
-  PropertyBag _propertyBag;
   public SwingAnimatorBuilder() {
     _painter = new MyPainter();
   }

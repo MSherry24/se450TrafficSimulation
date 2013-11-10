@@ -10,14 +10,7 @@ import timeserver.TimeServer;
 import model.Car;
 import model.CarSource;
 import model.Light;
-<<<<<<< HEAD
-=======
-import model.PropertyBag;
-import model.PropertyBag.TrafficType;
-<<<<<<< HEAD
->>>>>>> 79684bc1d89df4da73244ecf716b4ad139cc5e66
-=======
->>>>>>> 79684bc1d89df4da73244ecf716b4ad139cc5e66
+import properties.PropertyBag.TrafficType;
 import model.Road;
 import model.Car.Orientation;
 import model.Sink;
@@ -57,8 +50,8 @@ public class Model extends Observable {
 	 *  an observer of this model.
 	 *  <p>
 	 */
-	public Model(AnimatorBuilder builder, Integer rows, Integer columns, PropertyBag propertyBag) {
-		this._propertyBag = propertyBag;
+	public Model(AnimatorBuilder builder, Integer rows, Integer columns) {
+		this._propertyBag = PropertyBag.makePropertyBag();
 		this._time = this._propertyBag.getTimeServer();
 		if (rows < 0 || columns < 0 || (rows == 0 && columns == 0)) {
 			throw new IllegalArgumentException();
@@ -137,9 +130,9 @@ public class Model extends Observable {
 		//		 Add Vertical Roads With Lights
 		boolean southToNorth = false;
 		for (int j=0; j<columns; j++) {
-			CarSource carsource = new CarSource(this._propertyBag, this._time, Orientation.NS);
+			CarSource carsource = new CarSource(Orientation.NS);
 			for (int i=0; i<=rows; i++) {
-				Road l = new Road(_propertyBag);
+				Road l = new Road();
 				if (i == 0) {
 					carsource.setNextRoad(l);
 					l.setNextRoad(intersections[i][j]);	

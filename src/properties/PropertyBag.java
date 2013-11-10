@@ -8,19 +8,11 @@ public class PropertyBag {
 		ALTERNATING, SIMPLE
 	}
 
-<<<<<<< HEAD:src/properties/PropertyBag.java
-<<<<<<< HEAD:src/properties/PropertyBag.java
 	private static PropertyBag pb = null;
 	
 	private TimeServer timeServer = new TimeServerLinked();
 
 	private Double timeStep = 1.0;
-=======
-	private Double timeStep = 2.0;
->>>>>>> 79684bc1d89df4da73244ecf716b4ad139cc5e66:src/Model/PropertyBag.java
-=======
-	private Double timeStep = 2.0;
->>>>>>> 79684bc1d89df4da73244ecf716b4ad139cc5e66:src/Model/PropertyBag.java
 	private Double runTime = 1000.0;
 	private Integer gridRow = 3;
 	private Integer gridColumn = 3;

@@ -95,7 +95,7 @@ class Control {
 		});
 		m.add("Run Simulation", new UIMenuAction() {
 			public void run() {
-				Model model = new Model(new SwingAnimatorBuilder(), propertyBag.getGridRow(), propertyBag.getGridColumn(), propertyBag);
+				Model model = new Model(new SwingAnimatorBuilder(), propertyBag.getGridRow(), propertyBag.getGridColumn());
 				model.run(propertyBag.getRunTime());
 				model.dispose();
 				_state = START;
