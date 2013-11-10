@@ -10,13 +10,11 @@ import view.UIFormTest;
 import view.UIFormBuilder;
 import visualizer.Model;
 import visualizer.SwingAnimatorBuilder;
-import visualizer.TextAnimatorBuilder;
+//import visualizer.TextAnimatorBuilder;
 
-import java.util.Iterator;
-import java.util.Comparator;
+import properties.PropertyBag;
+import properties.PropertyBag.TrafficType;
 
-import model.PropertyBag;
-import model.PropertyBag.TrafficType;
 
 class Control {
 	private static final int EXITED = 0;
@@ -26,10 +24,9 @@ class Control {
 	private static final int NUMSTATES = 10;
 	private UIMenu[] _menus;
 	private int _state;
-	private PropertyBag propertyBag = new PropertyBag();
+	PropertyBag propertyBag = properties.PropertyBag.makePropertyBag();
 
 	private UIFormTest _numberTest;
-	private UIFormTest _stringTest;
 
 	private UI _ui;
 
@@ -42,16 +39,6 @@ class Control {
 		addSUBMENU(SUBMENU);
 		addEXIT(EXIT);
 
-		UIFormTest yearTest = new UIFormTest() {
-			public boolean run(String input) {
-				try {
-					int i = Integer.parseInt(input);
-					return i > 1800 && i < 5000;
-				} catch (NumberFormatException e) {
-					return false;
-				}
-			}
-		};
 		_numberTest = new UIFormTest() {
 			public boolean run(String input) {
 				try {
@@ -60,11 +47,6 @@ class Control {
 				} catch (NumberFormatException e) {
 					return false;
 				}
-			}
-		};
-		_stringTest = new UIFormTest() {
-			public boolean run(String input) {
-				return !"".equals(input.trim());
 			}
 		};
 	}
@@ -112,9 +94,8 @@ class Control {
 			}
 		});
 		m.add("Run Simulation", new UIMenuAction() {
-			// TODO
 			public void run() {
-				Model model = new Model(new SwingAnimatorBuilder(), propertyBag.getGridRow(), propertyBag.getGridColumn(), propertyBag);
+				Model model = new Model(new SwingAnimatorBuilder(), propertyBag.getGridRow(), propertyBag.getGridColumn());
 				model.run(propertyBag.getRunTime());
 				model.dispose();
 				_state = START;

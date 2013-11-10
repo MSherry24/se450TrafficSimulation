@@ -1,11 +1,18 @@
-package model;
+package properties;
+
+import timeserver.TimeServer;
+import timeserver.TimeServerLinked;
 
 public class PropertyBag {
 	public enum TrafficType {
 		ALTERNATING, SIMPLE
 	}
 
-	private Double timeStep = 2.0;
+	private static PropertyBag pb = null;
+	
+	private TimeServer timeServer = new TimeServerLinked();
+
+	private Double timeStep = 1.0;
 	private Double runTime = 1000.0;
 	private Integer gridRow = 2;
 	private Integer gridColumn = 2;
@@ -29,8 +36,15 @@ public class PropertyBag {
 	private Double trafficLightYellowTimeMin = 4.0;
 	private Double trafficLightYellowTimeMax = 5.0;	
 
-	public PropertyBag() {
+	private PropertyBag() {
 
+	}
+
+	public static PropertyBag makePropertyBag() {
+		if (PropertyBag.pb == null) {
+			PropertyBag.pb = new PropertyBag();
+		}
+		return PropertyBag.pb;
 	}
 
 	public Double getTimeStep() {
@@ -215,6 +229,10 @@ public class PropertyBag {
 
 	public void setTrafficLightYellowTimeMax(Double trafficLightYellowTimeMax) {
 		this.trafficLightYellowTimeMax = trafficLightYellowTimeMax;
+	}
+	
+	public TimeServer getTimeServer() {
+		return this.timeServer;
 	}
 
 	public String toString() {

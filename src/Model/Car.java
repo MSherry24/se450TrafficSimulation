@@ -2,6 +2,9 @@ package model;
 
 import java.awt.Color;
 
+import properties.PropertyBag;
+import timeserver.TimeServer;
+
 public class Car implements Agent {
 	private Double _brakeDistance;
 	private CarAcceptor _currentRoad;
@@ -14,35 +17,37 @@ public class Car implements Agent {
 	private Color _color;
 	private Orientation _orientation;
 	private TimeServer _time;
+	private PropertyBag _propertyBag = PropertyBag.makePropertyBag();
+
 	
 	public enum Orientation {
 		NS, EW
 	}
 
-	public Car(PropertyBag propertyBag, TimeServer time, Orientation orientation) {
+	public Car(Orientation orientation) {
 				
-		this._length = Math.random() * propertyBag.getCarLengthMax();
-		this._length = Math.max(propertyBag.getCarLengthMin(), this._length);
+		this._length = Math.random() * _propertyBag.getCarLengthMax();
+		this._length = Math.max(_propertyBag.getCarLengthMin(), this._length);
 		
-		this._maxVelocity = Math.random() * propertyBag.getCarMaxVelocityMax();
-		this._maxVelocity = Math.max(propertyBag.getCarMaxVelocityMin(), this._maxVelocity);
+		this._maxVelocity = Math.random() * _propertyBag.getCarMaxVelocityMax();
+		this._maxVelocity = Math.max(_propertyBag.getCarMaxVelocityMin(), this._maxVelocity);
 				
-		this._stopDistance = Math.random() * propertyBag.getCarStopDistanceMax();
-		this._stopDistance = Math.max(propertyBag.getCarStopDistanceMin(), this._stopDistance);
-		this._stopDistance = Math.max(propertyBag.getCarLengthMax() / 2, this._stopDistance);
+		this._stopDistance = Math.random() * _propertyBag.getCarStopDistanceMax();
+		this._stopDistance = Math.max(_propertyBag.getCarStopDistanceMin(), this._stopDistance);
+		this._stopDistance = Math.max(_propertyBag.getCarLengthMax() / 2, this._stopDistance);
 		
 		
-		this._brakeDistance = Math.random() * propertyBag.getCarBrakeDistanceMax();
-		this._brakeDistance = Math.max(propertyBag.getCarBrakeDistanceMin(), this._brakeDistance);
+		this._brakeDistance = Math.random() * _propertyBag.getCarBrakeDistanceMax();
+		this._brakeDistance = Math.max(_propertyBag.getCarBrakeDistanceMin(), this._brakeDistance);
 		this._brakeDistance = Math.max(this._stopDistance, this._brakeDistance);
 		
 		this._color = getRandomColor();
-		this._timestep = propertyBag.getTimeStep();	
+		this._timestep = _propertyBag.getTimeStep();	
 		this._frontPosition = 0.0;
 		this._roadSegmentsTraversed = 0;
 		
 		this._orientation = orientation;
-		this._time = time;
+		this._time = this._propertyBag.getTimeServer();
 	}
 
 	public void setFrontPosition(Double position) {
@@ -87,10 +92,6 @@ public class Car implements Agent {
 	}
 
 	public void run(double _time) {
-		// TODO Auto-generated method stub
-		// find closest obstacle
-		// calculate newVelocity
-		// calculate newFrontPosition
 		Double currentVelocity = getCurrentVelocity();
 		setFrontPosition(currentVelocity);
 		this._time.enqueue(this._time.currentTime() + this._timestep, this);
@@ -137,9 +138,7 @@ public class Car implements Agent {
 		return this._orientation;
 	}
 	
-	private Color getRandomColor() {
-		Color newColor;
-		
+	private Color getRandomColor() {		
 		Color a = new java.awt.Color(255,191,100);
 		Color b = new java.awt.Color(255,255,51);
 		Color c = new java.awt.Color(51,255,255);

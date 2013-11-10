@@ -3,9 +3,9 @@ package visualizer;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
+//import java.awt.Image;
 import java.util.Observable;
-import java.util.Observer;
+//import java.util.Observer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -82,7 +82,8 @@ public class SwingAnimator implements Animator {
     
     // Delay the main thread
     try {
-        Thread.currentThread().sleep(_delay);
+        Thread.currentThread();
+		Thread.sleep(_delay);
     } catch (InterruptedException e) {}
   }
 
@@ -106,9 +107,9 @@ public class SwingAnimator implements Animator {
       setBackground(Color.WHITE);
     }
     
-    void setPainter(SwingAnimatorPainter painter) {
-      _painter = painter;
-    }
+//    void setPainter(SwingAnimatorPainter painter) {
+//      _painter = painter;
+//    }
 
     public void paint(Graphics g) {
       // This test is necessary because the swing thread may call this

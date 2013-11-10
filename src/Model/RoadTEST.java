@@ -1,23 +1,19 @@
 package model;
 
 import java.util.Iterator;
-import java.util.Set;
-
+import properties.PropertyBag;
 import model.Car.Orientation;
-
 import random.Util;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
 @SuppressWarnings("deprecation")
 public class RoadTEST extends TestCase {
 
-	PropertyBag propertyBag = new PropertyBag();
-	TimeServerLinked t1 = new TimeServerLinked();
-	Car c1 = new Car(propertyBag, t1, Orientation.EW);
-	Road r1 = new Road(propertyBag);
-	Road r2 = new Road(propertyBag);
+	PropertyBag propertyBag = PropertyBag.makePropertyBag();
+	Car c1 = new Car(Orientation.EW);
+	Road r1 = new Road();
+	Road r2 = new Road();
 
 	public RoadTEST(String name) {
 		super(name);

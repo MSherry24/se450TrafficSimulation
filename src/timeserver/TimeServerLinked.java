@@ -1,6 +1,8 @@
-package model;
+package timeserver;
 
 import java.util.Observable;
+
+import model.Agent;
 
 public final class TimeServerLinked extends Observable implements TimeServer {
 	private static final class Node {

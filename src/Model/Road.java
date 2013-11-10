@@ -3,6 +3,8 @@ package model;
 import java.util.HashSet;
 import java.util.Set;
 
+import properties.PropertyBag;
+
 import model.Car.Orientation;
 import model.Light.LightState;
 
@@ -11,10 +13,11 @@ public class Road implements CarAcceptor {
 	private Set<Car> _cars;
 	private Double _endPosition;
 	private CarAcceptor _nextRoad;
+	private PropertyBag _propertyBag = PropertyBag.makePropertyBag();
 
-	public Road(PropertyBag propertyBag) {
-		this._endPosition = Math.random() * propertyBag.getRoadSegmentLengthMax();
-		this._endPosition = Math.max(this._endPosition, propertyBag.getRoadSegmentLengthMin());
+	public Road() {
+		this._endPosition = Math.random() * this._propertyBag.getRoadSegmentLengthMax();
+		this._endPosition = Math.max(this._endPosition, this._propertyBag.getRoadSegmentLengthMin());
 		this._cars = new HashSet<Car>();
 	}
 
