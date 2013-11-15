@@ -5,23 +5,23 @@ import java.util.Set;
 
 import properties.PropertyBag;
 
-import model.Car.Orientation;
-import model.Light.LightState;
+import model.Data.Orientation;
+import model.LightObj.LightState;
 
-public class Road implements CarAcceptor {
+final class Road implements CarAcceptor {
 
-	private Set<Car> _cars;
+	private Set<Vehicle> _cars;
 	private Double _endPosition;
-	private CarAcceptor _nextRoad;
+	private RoadEnd _nextRoad;
 	private PropertyBag _propertyBag = PropertyBag.makePropertyBag();
 
 	public Road() {
 		this._endPosition = Math.random() * this._propertyBag.getRoadSegmentLengthMax();
 		this._endPosition = Math.max(this._endPosition, this._propertyBag.getRoadSegmentLengthMin());
-		this._cars = new HashSet<Car>();
+		this._cars = new HashSet<Vehicle>();
 	}
 
-	public boolean accept(Car c, Double frontPosition) {
+	public boolean accept(Vehicle c, Double frontPosition) {
 		if (this._cars != null) {
 			this._cars.remove(c);
 		}
@@ -35,7 +35,7 @@ public class Road implements CarAcceptor {
 		}
 	}
 	
-	public boolean remove(Car c) {
+	public boolean remove(Vehicle c) {
 		if (this._cars.contains(c)) {
 			this._cars.remove(c);
 			return true;
@@ -50,15 +50,15 @@ public class Road implements CarAcceptor {
 		if (obstaclePosition == Double.POSITIVE_INFINITY) {
 			double distanceToEnd = this._endPosition - fromPosition;
 
-			if (this._nextRoad instanceof Light) {
+			if (this._nextRoad instanceof LightObj) {
 				if (orientation == Orientation.NS && 
-						(((Light) this._nextRoad).getLightState() == LightState.EWGREEN ||
-						((Light) this._nextRoad).getLightState() == LightState.EWYELLOW)) {
+						(((LightObj) this._nextRoad).getLightState() == LightState.EWGREEN ||
+						((LightObj) this._nextRoad).getLightState() == LightState.EWYELLOW)) {
 					return distanceToEnd;
 				}
 				if (orientation == Orientation.EW && 
-						(((Light) this._nextRoad).getLightState() == LightState.NSGREEN ||
-						((Light) this._nextRoad).getLightState() == LightState.NSYELLOW)) {
+						(((LightObj) this._nextRoad).getLightState() == LightState.NSGREEN ||
+						((LightObj) this._nextRoad).getLightState() == LightState.NSYELLOW)) {
 					return distanceToEnd;
 				}
 			}
@@ -70,14 +70,14 @@ public class Road implements CarAcceptor {
 	
 	private Double distanceToObstacleBack(Double fromPosition) {
 		double carBackPosition = Double.POSITIVE_INFINITY;
-		for (Car c : _cars)
+		for (Vehicle c : _cars)
 			if (c.getBackPosition() >= fromPosition &&
 			c.getBackPosition() < carBackPosition)
 				carBackPosition = c.getBackPosition();
 		return carBackPosition;
 	}
 
-	public Set<Car> getCars() {
+	public Set<Vehicle> getCars() {
 		return _cars;
 	}
 
@@ -85,13 +85,12 @@ public class Road implements CarAcceptor {
 		return _endPosition;
 	}
 
-	public CarAcceptor getNextRoad(Orientation orientation) {
+	public RoadEnd getNextRoad(Orientation orientation) {
 		return _nextRoad;
 	}
 	
-	public void setNextRoad(CarAcceptor nextRoad) {
+	public void setNextRoad(RoadEnd nextRoad) {
 		this._nextRoad = nextRoad;
 	}
-	
 }
 

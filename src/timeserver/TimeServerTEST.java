@@ -59,11 +59,6 @@ public class TimeServerTEST extends TestCase {
 				
 			}
 
-			@Override
-			public CarAcceptor getCurrentRoad() {
-				// TODO Auto-generated method stub
-				return null;
-			}
 		}
 
 		Agent x1 = new TestThatElementsAreInsertedInOrder();

@@ -2,12 +2,16 @@ package model;
 
 import java.awt.Color;
 
+import model.Data.Orientation;
+
 import properties.PropertyBag;
 import timeserver.TimeServer;
 
-public class Car implements Agent {
+final class Car implements Agent, Vehicle {
 	private Double _brakeDistance;
 	private CarAcceptor _currentRoad;
+	private Intersection _currentIntersection;
+	private boolean _inIntersection;
 	private Double _frontPosition;
 	private Double _length;
 	private Double _maxVelocity;
@@ -20,11 +24,7 @@ public class Car implements Agent {
 	private PropertyBag _propertyBag = PropertyBag.makePropertyBag();
 
 	
-	public enum Orientation {
-		NS, EW
-	}
-
-	public Car(Orientation orientation) {
+	Car(Orientation orientation) {
 				
 		this._length = Math.random() * _propertyBag.getCarLengthMax();
 		this._length = Math.max(_propertyBag.getCarLengthMin(), this._length);
@@ -100,6 +100,12 @@ public class Car implements Agent {
 	
 	public void setCurrentRoad(CarAcceptor roadCarIsOn) {
 		this._currentRoad = roadCarIsOn;
+		this._inIntersection = false;
+	}
+	
+	public void setCurrentIntersection(Intersection intersectionCarIsIn) {
+		this._currentIntersection = intersectionCarIsIn;
+		this._inIntersection = true;
 	}
 
 	public CarAcceptor getCurrentRoad() {
