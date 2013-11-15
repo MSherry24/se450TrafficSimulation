@@ -29,7 +29,7 @@ public class CarTEST extends TestCase {
 		Assert.assertTrue(c1.getLength() >= propertyBag.getCarLengthMin());
 		Assert.assertTrue(c1.getMaxVelocity() <= propertyBag.getCarMaxVelocityMax());
 		Assert.assertTrue(c1.getMaxVelocity() >= propertyBag.getCarMaxVelocityMin());
-		Assert.assertTrue(c1.getStopDistance() <= propertyBag.getCarStopDistanceMax());
+		Assert.assertTrue(c1.getStopDistance() <= propertyBag.getCarBrakeDistanceMax());
 		Assert.assertTrue(c1.getStopDistance() >= propertyBag.getCarStopDistanceMin());
 		Assert.assertEquals(c1.getFrontPosition(), 0.0);
 		Assert.assertEquals(c1.getTimeStep(), propertyBag.getTimeStep());
