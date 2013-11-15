@@ -11,7 +11,7 @@ public interface Vehicle {
 	public void setFrontPosition(Double position);
 	public Double getBackPosition();
 	public void setCurrentRoad(CarAcceptor roadCarIsOn);
-	public void setCurrentIntersection(Intersection intersectionCarIsIn);
+	public void setCurrentIntersection(RoadEnd intersectionCarIsIn);
 	public Color getColor(); 
 	public Double getLength(); 
 	public Double getBrakeDistance(); 

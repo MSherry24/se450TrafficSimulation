@@ -10,7 +10,7 @@ import timeserver.TimeServer;
 final class Car implements Agent, Vehicle {
 	private Double _brakeDistance;
 	private CarAcceptor _currentRoad;
-	private Intersection _currentIntersection;
+	private RoadEnd _currentIntersection;
 	private boolean _inIntersection;
 	private Double _frontPosition;
 	private Double _length;
@@ -53,11 +53,21 @@ final class Car implements Agent, Vehicle {
 	public void setFrontPosition(Double position) {
 		Double roadEnd = this._currentRoad.getEndPosition();
 		if (position > roadEnd) {
-			CarAcceptor currentRoad = this._currentRoad;
-			this._currentRoad.getNextRoad(this._orientation).accept(this, position - roadEnd);
-			currentRoad.remove(this);
-			this._roadSegmentsTraversed++;
-			return;
+			CarAcceptor currentRoad;
+			if (this._inIntersection) {
+				RoadEnd currentIntersection = this._currentIntersection;
+				this._currentIntersection.getNextRoad(this._orientation).accept(this, position - roadEnd);
+				currentIntersection.remove(this);
+				this._roadSegmentsTraversed++;
+				return;
+			}
+			else {
+				CarAcceptor road = this._currentRoad;
+				this._currentRoad.getNextRoad(this._orientation).accept(this, position - roadEnd);
+				road.remove(this);
+				this._roadSegmentsTraversed++;
+				return;
+			}
 		}
 		else {
 			this._frontPosition = position;
@@ -74,7 +84,13 @@ final class Car implements Agent, Vehicle {
 
 	private Double getCurrentVelocity() {
 		Double velocity;
-		Double distanceToObstacle = this._currentRoad.distanceToObstacle(this._frontPosition, this._orientation);
+		Double distanceToObstacle;
+		if (this._inIntersection) {
+			distanceToObstacle = this._currentIntersection.distanceToObstacle(this._frontPosition, this._orientation);
+		}
+		else {
+			 distanceToObstacle = this._currentRoad.distanceToObstacle(this._frontPosition, this._orientation);
+		}
 		if (distanceToObstacle == Double.POSITIVE_INFINITY) {
 			return this._frontPosition + this._maxVelocity * this._timestep;
 		}
@@ -103,7 +119,7 @@ final class Car implements Agent, Vehicle {
 		this._inIntersection = false;
 	}
 	
-	public void setCurrentIntersection(Intersection intersectionCarIsIn) {
+	public void setCurrentIntersection(RoadEnd intersectionCarIsIn) {
 		this._currentIntersection = intersectionCarIsIn;
 		this._inIntersection = true;
 	}
