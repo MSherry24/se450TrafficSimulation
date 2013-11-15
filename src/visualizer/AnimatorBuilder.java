@@ -1,7 +1,8 @@
 package visualizer;
 
-import model.Light;
-import model.Road;
+import model.CarAcceptor;
+import model.LightObj;
+import model.RoadEnd;
 import visualizer.Animator;
 
 /** 
@@ -15,21 +16,21 @@ public interface AnimatorBuilder {
    */
   public Animator getAnimator();
   /**
-   *  Add the {@link Light} to the display at position <code>i,j</code>.
+   *  Add the {@link LightObj} to the display at position <code>i,j</code>.
    */
-  public void addLight(Light d, int i, int j);
+  public void addLight(RoadEnd intersections, int i, int j);
   /**
    *  Add the horizontal {@link Road} to the display, west of position <code>i,j</code>.
    *  If <code>eastToWest</code> is true, then road position 0 is the eastmost position.
    *  If <code>eastToWest</code> is false, then road position 0 is the westmost position.
    */
-  public void addHorizontalRoad(Road l, int i, int j, boolean eastToWest);
+  public void addHorizontalRoad(CarAcceptor l, int i, int j, boolean eastToWest);
   /**
    *  Add the vertical {@link Road} to the display, north of position <code>i,j</code>.
    *  If <code>southToNorth</code> is true, then road position 0 is the southmost position.
    *  If <code>southToNorth</code> is false, then road position 0 is the northmost position.
    */
-  public void addVerticalRoad(Road l, int i, int j, boolean southToNorth);
+  public void addVerticalRoad(CarAcceptor l, int i, int j, boolean southToNorth);
 }
 
 /**
@@ -37,9 +38,9 @@ public interface AnimatorBuilder {
  */
 class NullAnimatorBuilder implements AnimatorBuilder {
   public Animator getAnimator() { return new NullAnimator(); }
-  public void addLight(Light d, int i, int j) { }
-  public void addHorizontalRoad(Road l, int i, int j, boolean eastToWest) { }
-  public void addVerticalRoad(Road l, int i, int j, boolean southToNorth) { }
+  public void addLight(RoadEnd d, int i, int j) { }
+  public void addHorizontalRoad(CarAcceptor l, int i, int j, boolean eastToWest) { }
+  public void addVerticalRoad(CarAcceptor l, int i, int j, boolean southToNorth) { }
 }
 
 /**

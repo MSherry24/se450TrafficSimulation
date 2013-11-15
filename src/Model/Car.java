@@ -2,12 +2,16 @@ package model;
 
 import java.awt.Color;
 
+import model.Data.Orientation;
+
 import properties.PropertyBag;
 import timeserver.TimeServer;
 
-public class Car implements Agent {
+final class Car implements Agent, Vehicle {
 	private Double _brakeDistance;
 	private CarAcceptor _currentRoad;
+	private RoadEnd _currentIntersection;
+	private boolean _inIntersection;
 	private Double _frontPosition;
 	private Double _length;
 	private Double _maxVelocity;
@@ -20,11 +24,7 @@ public class Car implements Agent {
 	private PropertyBag _propertyBag = PropertyBag.makePropertyBag();
 
 	
-	public enum Orientation {
-		NS, EW
-	}
-
-	public Car(Orientation orientation) {
+	Car(Orientation orientation) {
 				
 		this._length = Math.random() * _propertyBag.getCarLengthMax();
 		this._length = Math.max(_propertyBag.getCarLengthMin(), this._length);
@@ -53,11 +53,21 @@ public class Car implements Agent {
 	public void setFrontPosition(Double position) {
 		Double roadEnd = this._currentRoad.getEndPosition();
 		if (position > roadEnd) {
-			CarAcceptor currentRoad = this._currentRoad;
-			this._currentRoad.getNextRoad(this._orientation).accept(this, position - roadEnd);
-			currentRoad.remove(this);
-			this._roadSegmentsTraversed++;
-			return;
+			CarAcceptor currentRoad;
+			if (this._inIntersection) {
+				RoadEnd currentIntersection = this._currentIntersection;
+				this._currentIntersection.getNextRoad(this._orientation).accept(this, position - roadEnd);
+				currentIntersection.remove(this);
+				this._roadSegmentsTraversed++;
+				return;
+			}
+			else {
+				CarAcceptor road = this._currentRoad;
+				this._currentRoad.getNextRoad(this._orientation).accept(this, position - roadEnd);
+				road.remove(this);
+				this._roadSegmentsTraversed++;
+				return;
+			}
 		}
 		else {
 			this._frontPosition = position;
@@ -74,7 +84,13 @@ public class Car implements Agent {
 
 	private Double getCurrentVelocity() {
 		Double velocity;
-		Double distanceToObstacle = this._currentRoad.distanceToObstacle(this._frontPosition, this._orientation);
+		Double distanceToObstacle;
+		if (this._inIntersection) {
+			distanceToObstacle = this._currentIntersection.distanceToObstacle(this._frontPosition, this._orientation);
+		}
+		else {
+			 distanceToObstacle = this._currentRoad.distanceToObstacle(this._frontPosition, this._orientation);
+		}
 		if (distanceToObstacle == Double.POSITIVE_INFINITY) {
 			return this._frontPosition + this._maxVelocity * this._timestep;
 		}
@@ -100,6 +116,12 @@ public class Car implements Agent {
 	
 	public void setCurrentRoad(CarAcceptor roadCarIsOn) {
 		this._currentRoad = roadCarIsOn;
+		this._inIntersection = false;
+	}
+	
+	public void setCurrentIntersection(RoadEnd intersectionCarIsIn) {
+		this._currentIntersection = intersectionCarIsIn;
+		this._inIntersection = true;
 	}
 
 	public CarAcceptor getCurrentRoad() {

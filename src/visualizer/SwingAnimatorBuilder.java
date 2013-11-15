@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import visualizer.AnimatorBuilder;
-import model.Car;
-import model.Light;
+import model.CarAcceptor;
+import model.LightObj;
 import model.MP;
-import model.Road;
+import model.RoadEnd;
+import model.Vehicle;
 import visualizer.Animator;
 import visualizer.SwingAnimator;
 import visualizer.SwingAnimatorPainter;
@@ -34,20 +35,20 @@ public class SwingAnimatorBuilder implements AnimatorBuilder {
   private static double skipRoad = VP.gap + MP.roadLength;
   private static double skipCar = VP.gap + VP.elementWidth;
   private static double skipRoadCar = skipRoad + skipCar;
-  public void addLight(Light d, int i, int j) {
+  public void addLight(RoadEnd d, int i, int j) {
     double x = skipInit + skipRoad + j*skipRoadCar;
     double y = skipInit + skipRoad + i*skipRoadCar;
     Translator t = new TranslatorWE(x, y, MP.carLength, VP.elementWidth, VP.scaleFactor);
     _painter.addLight(d,t);
   }
-  public void addHorizontalRoad(Road l, int i, int j, boolean eastToWest) {
+  public void addHorizontalRoad(CarAcceptor l, int i, int j, boolean eastToWest) {
     double x = skipInit + j*skipRoadCar;
     double y = skipInit + skipRoad + i*skipRoadCar;
     Translator t = eastToWest ? new TranslatorEW(x, y, l.getEndPosition(), VP.elementWidth, VP.scaleFactor)
                               : new TranslatorWE(x, y, l.getEndPosition(), VP.elementWidth, VP.scaleFactor);
     _painter.addRoad(l,t);
   }
-  public void addVerticalRoad(Road l, int i, int j, boolean southToNorth) {
+  public void addVerticalRoad(CarAcceptor l, int i, int j, boolean southToNorth) {
     double x = skipInit + skipRoad + j*skipRoadCar;
     double y = skipInit + i*skipRoadCar;
     Translator t = southToNorth ? new TranslatorSN(x, y, l.getEndPosition(), VP.elementWidth, VP.scaleFactor)
@@ -69,17 +70,17 @@ public class SwingAnimatorBuilder implements AnimatorBuilder {
       }
     }
     
-    private List<Element<Road>> _roadElements;
-    private List<Element<Light>> _lightElements;
+    private List<Element<CarAcceptor>> _roadElements;
+    private List<Element<RoadEnd>> _lightElements;
     MyPainter() {
-      _roadElements = new ArrayList<Element<Road>>();
-      _lightElements = new ArrayList<Element<Light>>();
+      _roadElements = new ArrayList<Element<CarAcceptor>>();
+      _lightElements = new ArrayList<Element<RoadEnd>>();
     }    
-    void addLight(Light x, Translator t) {
-      _lightElements.add(new Element<Light>(x,t));
+    void addLight(RoadEnd d, Translator t) {
+      _lightElements.add(new Element<RoadEnd>(d,t));
     }
-    void addRoad(Road x, Translator t) {
-      _roadElements.add(new Element<Road>(x,t));
+    void addRoad(CarAcceptor x, Translator t) {
+      _roadElements.add(new Element<CarAcceptor>(x,t));
     }
     
     public void paint(Graphics g) {
@@ -87,8 +88,8 @@ public class SwingAnimatorBuilder implements AnimatorBuilder {
       // at any time during execution...
 
       // First draw the background elements
-      for (Element<Light> e : _lightElements) {
-        if (e.x.getState()) {
+      for (Element<RoadEnd> e : _lightElements) {
+        if (e.x.getLight().getState()) {
           g.setColor(Color.BLUE);
         } else {
           g.setColor(Color.YELLOW);
@@ -96,14 +97,14 @@ public class SwingAnimatorBuilder implements AnimatorBuilder {
         XGraphics.fillOval(g, e.t, 0, 0, MP.carLength, VP.elementWidth);
       }
       g.setColor(Color.BLACK);
-      for (Element<Road> e : _roadElements) {
+      for (Element<CarAcceptor> e : _roadElements) {
         XGraphics.fillRect(g, e.t, 0, 0, MP.roadLength, VP.elementWidth);
       }
       
       // Then draw the foreground elements
-      for (Element<Road> e : _roadElements) {
+      for (Element<CarAcceptor> e : _roadElements) {
         // iterate through a copy because e.x.getCars() may change during iteration...
-        for (Car d : e.x.getCars().toArray(new Car[0])) {
+        for (Vehicle d : e.x.getCars().toArray(new Vehicle[0])) {
           g.setColor(d.getColor());
           XGraphics.fillOval(g, 
         		  e.t, 

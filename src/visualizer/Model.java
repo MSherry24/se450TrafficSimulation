@@ -7,12 +7,15 @@ import java.util.Observable;
 import properties.PropertyBag;
 import timeserver.TimeServer;
 
-import model.Car;
+import model.CarAcceptor;
 import model.CarSource;
-import model.Light;
+import model.Data;
+import model.Intersection;
+import model.LightObj;
+import model.RoadEnd;
+
 import properties.PropertyBag.TrafficType;
-import model.Road;
-import model.Car.Orientation;
+import model.Data.Orientation;
 import model.Sink;
 
 
@@ -26,11 +29,12 @@ public class Model extends Observable {
 	private boolean _disposed;
 	private PropertyBag _propertyBag;
 	private TimeServer _time;
+	private Data _dataFactory;
 
 	/** Creates a model to be visualized using the <code>builder</code>.
 	 *  If the builder is null, no visualization is performed.
 	 *  The number of <code>rows</code> and <code>columns</code>
-	 *  indicate the number of {@link Light}s, organized as a 2D
+	 *  indicate the number of {@link LightObj}s, organized as a 2D
 	 *  matrix.  These are separated and surrounded by horizontal and
 	 *  vertical {@link Road}s.  For example, calling the constructor with 1
 	 *  row and 2 columns generates a model of the form:
@@ -39,7 +43,7 @@ public class Model extends Observable {
 	 *   --@--@--
 	 *     |  |
 	 *  </pre>
-	 *  where <code>@</code> is a {@link Light}, <code>|</code> is a
+	 *  where <code>@</code> is a {@link LightObj}, <code>|</code> is a
 	 *  vertical {@link Road} and <code>--</code> is a horizontal {@link Road}.
 	 *  Each road has one {@link Car}.
 	 *
@@ -53,6 +57,7 @@ public class Model extends Observable {
 	public Model(AnimatorBuilder builder, Integer rows, Integer columns) {
 		this._propertyBag = PropertyBag.makePropertyBag();
 		this._time = this._propertyBag.getTimeServer();
+		this._dataFactory = new Data();
 		if (rows < 0 || columns < 0 || (rows == 0 && columns == 0)) {
 			throw new IllegalArgumentException();
 		}
@@ -88,15 +93,15 @@ public class Model extends Observable {
 	 * Construct the model, establishing correspondences with the visualizer.
 	 */
 	private void setup(AnimatorBuilder builder, Integer rows, Integer columns) {
-		List<Road> roads = new ArrayList<Road>();
-		Light[][] intersections = new Light[rows][columns];
+		List<CarAcceptor> roads = new ArrayList<CarAcceptor>();
+		RoadEnd[][] intersections = new RoadEnd[rows][columns];
 
 		// Add Lights
 		for (int i=0; i<rows; i++) {
 			for (int j=0; j<columns; j++) {
-				intersections[i][j] = new Light();
+				intersections[i][j] = Data.makeIntersection();
 				builder.addLight(intersections[i][j], i, j);
-				_time.enqueue(this._time.currentTime(), intersections[i][j]);
+				_time.enqueue(this._time.currentTime(), intersections[i][j].getLight());
 			}
 		}
 
@@ -105,7 +110,7 @@ public class Model extends Observable {
 		for (int i=0; i<rows; i++) {
 			CarSource carsource = new CarSource(Orientation.EW);
 			for (int j=0; j<=columns; j++) {
-				Road l = new Road();
+				CarAcceptor l = Data.makeRoad();
 				if (j == 0) {
 					carsource.setNextRoad(l);
 					l.setNextRoad(intersections[i][j]);
@@ -132,7 +137,7 @@ public class Model extends Observable {
 		for (int j=0; j<columns; j++) {
 			CarSource carsource = new CarSource(Orientation.NS);
 			for (int i=0; i<=rows; i++) {
-				Road l = new Road();
+				CarAcceptor l = Data.makeRoad();
 				if (i == 0) {
 					carsource.setNextRoad(l);
 					l.setNextRoad(intersections[i][j]);	
