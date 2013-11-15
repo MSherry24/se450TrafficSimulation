@@ -1,7 +1,7 @@
 package model;
 
 import properties.PropertyBag;
-import model.Car.Orientation;
+import model.Data.Orientation;
 import random.Util;
 import junit.framework.Assert;
 import junit.framework.TestCase;
