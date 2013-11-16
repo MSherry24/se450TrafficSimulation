@@ -2,7 +2,6 @@ package model;
 
 import java.util.Iterator;
 import properties.PropertyBag;
-import model.Data.Orientation;
 import random.Util;
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -12,10 +11,9 @@ public class RoadTEST extends TestCase {
 	Data dataFactory = new Data();
 
 	PropertyBag propertyBag = PropertyBag.makePropertyBag();
-	Car c1 = dataFactory.makeCar(Orientation.EW);
-	Road r1 = dataFactory.makeRoad();
-	Road r2 = dataFactory.makeRoad();
-	RoadEnd i1 = dataFactory.makeIntersection();
+	Car c1;
+	Road r1, r2;
+	RoadEnd i1;
 
 
 	public RoadTEST(String name) {

@@ -22,6 +22,14 @@ public class Data {
 		return new IntersectionObj();
 	}
 	
+	static public final RoadEnd makeSink() {
+		return new Sink();
+	}
+	
+	static public final CarSource makeSource(Orientation orientation) {
+		return new CarSourceObj(orientation);
+	}
+	
 	static public final LightObj makeLight() {
 		return new LightObj();
 	}

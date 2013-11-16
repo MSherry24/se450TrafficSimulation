@@ -8,7 +8,6 @@ import java.util.List;
 
 import visualizer.AnimatorBuilder;
 import model.CarAcceptor;
-import model.LightObj;
 import model.MP;
 import model.RoadEnd;
 import model.Vehicle;

@@ -2,11 +2,8 @@ package model;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import properties.PropertyBag;
-
 import model.Data.Orientation;
-import model.LightObj.LightState;
 
 final class Road implements CarAcceptor {
 

@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Set;
-
 import model.Data.Orientation;
 
 	public interface Intersection {

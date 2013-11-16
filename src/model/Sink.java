@@ -3,7 +3,7 @@ package model;
 import model.Data.Orientation;
 
 
-public class Sink implements RoadEnd {
+final class Sink implements RoadEnd {
 
 	public boolean accept(Vehicle c, Double frontPosition) {
 		return true;

@@ -1,9 +1,7 @@
 package model;
 
 import java.awt.Color;
-
 import model.Data.Orientation;
-
 import properties.PropertyBag;
 import timeserver.TimeServer;
 
@@ -54,7 +52,6 @@ final class Car implements Agent, Vehicle {
 		
 		Double roadEnd = this._inIntersection ? this._currentIntersection.getEndPosition() : this._currentRoad.getEndPosition();
 		if (position > roadEnd) {
-			CarAcceptor currentRoad;
 			if (this._inIntersection) {
 				RoadEnd currentIntersection = this._currentIntersection;
 				this._currentIntersection.getNextRoad(this._orientation).accept(this, position - roadEnd);

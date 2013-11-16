@@ -3,20 +3,16 @@ package visualizer;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Observable;
-
 import properties.PropertyBag;
 import timeserver.TimeServer;
-
 import model.CarAcceptor;
 import model.CarSource;
 import model.Data;
-import model.Intersection;
 import model.LightObj;
 import model.RoadEnd;
 
 import properties.PropertyBag.TrafficType;
 import model.Data.Orientation;
-import model.Sink;
 
 
 /**
@@ -29,7 +25,6 @@ public class Model extends Observable {
 	private boolean _disposed;
 	private PropertyBag _propertyBag;
 	private TimeServer _time;
-	private Data _dataFactory;
 
 	/** Creates a model to be visualized using the <code>builder</code>.
 	 *  If the builder is null, no visualization is performed.
@@ -57,7 +52,6 @@ public class Model extends Observable {
 	public Model(AnimatorBuilder builder, Integer rows, Integer columns) {
 		this._propertyBag = PropertyBag.makePropertyBag();
 		this._time = this._propertyBag.getTimeServer();
-		this._dataFactory = new Data();
 		if (rows < 0 || columns < 0 || (rows == 0 && columns == 0)) {
 			throw new IllegalArgumentException();
 		}
@@ -108,7 +102,7 @@ public class Model extends Observable {
 		// Add Horizontal Roads With alternating Lights
 		boolean eastToWest = false;
 		for (int i=0; i<rows; i++) {
-			CarSource carsource = new CarSource(Orientation.EW);
+			CarSource carsource = Data.makeSource(Orientation.EW);
 			if (eastToWest) {
 				for (int j=columns; j>=0; j--) {
 					CarAcceptor l = Data.makeRoad();
@@ -118,7 +112,7 @@ public class Model extends Observable {
 					}
 					else if (j == 0) {
 						intersections[i][j].setNextRoad(l, Orientation.EW);
-						l.setNextRoad(new Sink());
+						l.setNextRoad(Data.makeSink());
 					}
 					else {
 						intersections[i][j].setNextRoad(l, Orientation.EW);
@@ -138,7 +132,7 @@ public class Model extends Observable {
 					}
 					else if (j == columns) {
 						intersections[i][j-1].setNextRoad(l, Orientation.EW);
-						l.setNextRoad(new Sink());
+						l.setNextRoad(Data.makeSink());
 					}
 					else {
 						intersections[i][j-1].setNextRoad(l, Orientation.EW);
@@ -157,7 +151,7 @@ public class Model extends Observable {
 		//	Add Vertical Roads With Lights
 		boolean southToNorth = false;
 		for (int j=0; j<columns; j++) {
-			CarSource carsource = new CarSource(Orientation.NS);
+			CarSource carsource = Data.makeSource(Orientation.NS);
 			if (southToNorth) {
 				for (int i=rows; i>=0; i--) {
 					CarAcceptor l = Data.makeRoad();
@@ -167,7 +161,7 @@ public class Model extends Observable {
 					}
 					else if (i == 0) {
 						intersections[i][j].setNextRoad(l, Orientation.NS);
-						l.setNextRoad(new Sink());
+						l.setNextRoad(Data.makeSink());
 					}
 					else {
 						intersections[i][j].setNextRoad(l, Orientation.NS);
@@ -187,7 +181,7 @@ public class Model extends Observable {
 					}
 					else if (i == rows) {
 						intersections[i-1][j].setNextRoad(l, Orientation.NS);
-						l.setNextRoad(new Sink());
+						l.setNextRoad(Data.makeSink());
 					}
 					else {
 						intersections[i-1][j].setNextRoad(l, Orientation.NS);
