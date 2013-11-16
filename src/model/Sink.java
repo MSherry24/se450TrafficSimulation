@@ -4,6 +4,10 @@ import model.Data.Orientation;
 
 
 final class Sink implements RoadEnd {
+	
+	Sink() {
+		
+	}
 
 	public boolean accept(Vehicle c, Double frontPosition) {
 		return true;

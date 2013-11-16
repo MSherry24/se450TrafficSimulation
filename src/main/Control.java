@@ -11,7 +11,6 @@ import view.UIFormBuilder;
 import visualizer.Model;
 import visualizer.SwingAnimatorBuilder;
 import visualizer.TextAnimatorBuilder;
-//import visualizer.TextAnimatorBuilder;
 
 import properties.PropertyBag;
 import properties.PropertyBag.TrafficType;
