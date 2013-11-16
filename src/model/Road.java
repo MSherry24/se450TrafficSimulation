@@ -49,21 +49,19 @@ final class Road implements CarAcceptor {
 		double obstaclePosition = this.distanceToObstacleBack(fromPosition);
 		if (obstaclePosition == Double.POSITIVE_INFINITY) {
 			double distanceToEnd = this._endPosition - fromPosition;
-
-			if (this._nextRoad instanceof LightObj) {
-				if (orientation == Orientation.NS && 
-						(((LightObj) this._nextRoad).getLightState() == LightState.EWGREEN ||
-						((LightObj) this._nextRoad).getLightState() == LightState.EWYELLOW)) {
-					return distanceToEnd;
-				}
-				if (orientation == Orientation.EW && 
-						(((LightObj) this._nextRoad).getLightState() == LightState.NSGREEN ||
-						((LightObj) this._nextRoad).getLightState() == LightState.NSYELLOW)) {
-					return distanceToEnd;
-				}
-			}
-			obstaclePosition = _nextRoad.distanceToObstacle(0.0, orientation) + distanceToEnd;
-			return obstaclePosition;
+//			LightState lightState = (this._nextRoad).getLight().getLightState();
+//			if (orientation == Orientation.NS && 
+//					(lightState == LightState.EWGREEN ||
+//					lightState == LightState.EWYELLOW)) {
+//				return distanceToEnd;
+//			}
+//			if (orientation == Orientation.EW && 
+//					(lightState == LightState.NSGREEN ||
+//					lightState == LightState.NSYELLOW)) {
+//				return distanceToEnd;
+//		}
+		obstaclePosition = _nextRoad.distanceToObstacle(0.0, orientation) + distanceToEnd;
+		return obstaclePosition;
 		}
 		return obstaclePosition - fromPosition;
 	}

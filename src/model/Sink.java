@@ -33,7 +33,6 @@ public class Sink implements RoadEnd {
 		return Double.POSITIVE_INFINITY;
 	}
 
-	@Override
 	public LightObj getLight() {
 		return null;
 	}

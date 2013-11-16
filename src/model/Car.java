@@ -51,7 +51,8 @@ final class Car implements Agent, Vehicle {
 	}
 
 	public void setFrontPosition(Double position) {
-		Double roadEnd = this._currentRoad.getEndPosition();
+		
+		Double roadEnd = this._inIntersection ? this._currentIntersection.getEndPosition() : this._currentRoad.getEndPosition();
 		if (position > roadEnd) {
 			CarAcceptor currentRoad;
 			if (this._inIntersection) {
