@@ -14,13 +14,13 @@ public class PropertyBag {
 
 	private Double timeStep = 1.0;
 	private Double runTime = 1000.0;
-	private Integer gridRow = 2;
-	private Integer gridColumn = 2;
-	private TrafficType trafficPattern = TrafficType.SIMPLE;
+	private Integer gridRow = 3;
+	private Integer gridColumn = 3;
+	private TrafficType trafficPattern = TrafficType.ALTERNATING;
 	private Double carGenerationDelayMin = 20.0;
 	private Double carGenerationDelayMax = 30.0;
-	private Double roadSegmentLengthMin = 200.0;
-	private Double roadSegmentLengthMax = 500.0;
+	private Double roadSegmentLengthMin = 100.0;
+	private Double roadSegmentLengthMax = 1000.0;
 	private Double intersectionLengthMin = 10.0;
 	private Double intersectionLengthMax = 15.0;
 	private Double carLengthMin = 10.0;

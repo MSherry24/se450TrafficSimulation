@@ -10,6 +10,7 @@ import view.UIFormTest;
 import view.UIFormBuilder;
 import visualizer.Model;
 import visualizer.SwingAnimatorBuilder;
+import visualizer.TextAnimatorBuilder;
 //import visualizer.TextAnimatorBuilder;
 
 import properties.PropertyBag;
@@ -100,10 +101,10 @@ class Control {
 				model.dispose();
 				_state = START;
 
-				//				Model model = new Model(new TextAnimatorBuilder(), propertyBag.getGridRow(), propertyBag.getGridColumn(), propertyBag);
-				//				model.run(propertyBag.getRunTime());
-				//				model.dispose();
-				//				_state = START;
+//								Model model = new Model(new TextAnimatorBuilder(), propertyBag.getGridRow(), propertyBag.getGridColumn());
+//								model.run(propertyBag.getRunTime());
+//								model.dispose();
+//								_state = START;
 			}
 		});
 		m.add("Change Simulation Parameters", new UIMenuAction() {

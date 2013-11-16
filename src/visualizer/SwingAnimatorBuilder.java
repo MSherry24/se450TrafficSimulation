@@ -44,14 +44,14 @@ public class SwingAnimatorBuilder implements AnimatorBuilder {
   public void addHorizontalRoad(CarAcceptor l, int i, int j, boolean eastToWest) {
     double x = skipInit + j*skipRoadCar;
     double y = skipInit + skipRoad + i*skipRoadCar;
-    Translator t = eastToWest ? new TranslatorEW(x, y, l.getEndPosition(), VP.elementWidth, VP.scaleFactor)
+    Translator t = eastToWest ? new TranslatorEW(x, y, MP.roadLength, VP.elementWidth, VP.scaleFactor)
                               : new TranslatorWE(x, y, l.getEndPosition(), VP.elementWidth, VP.scaleFactor);
     _painter.addRoad(l,t);
   }
   public void addVerticalRoad(CarAcceptor l, int i, int j, boolean southToNorth) {
     double x = skipInit + skipRoad + j*skipRoadCar;
     double y = skipInit + i*skipRoadCar;
-    Translator t = southToNorth ? new TranslatorSN(x, y, l.getEndPosition(), VP.elementWidth, VP.scaleFactor)
+    Translator t = southToNorth ? new TranslatorSN(x, y, MP.roadLength, VP.elementWidth, VP.scaleFactor)
                                 : new TranslatorNS(x, y, l.getEndPosition(), VP.elementWidth, VP.scaleFactor);
     _painter.addRoad(l,t);
   }

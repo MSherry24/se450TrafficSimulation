@@ -105,54 +105,98 @@ public class Model extends Observable {
 			}
 		}
 
-		// Add Horizontal Roads With Lights
+		// Add Horizontal Roads With alternating Lights
 		boolean eastToWest = false;
 		for (int i=0; i<rows; i++) {
 			CarSource carsource = new CarSource(Orientation.EW);
-			for (int j=0; j<=columns; j++) {
-				CarAcceptor l = Data.makeRoad();
-				if (j == 0) {
-					carsource.setNextRoad(l);
-					l.setNextRoad(intersections[i][j]);
-				}
-				else if (j == columns) {
-					intersections[i][j-1].setNextRoad(l, Orientation.EW);
-					l.setNextRoad(new Sink());
-				}
-				else {
-					intersections[i][j-1].setNextRoad(l, Orientation.EW);
-					l.setNextRoad(intersections[i][j]);
-				}
+			if (eastToWest) {
+				for (int j=columns; j>=0; j--) {
+					CarAcceptor l = Data.makeRoad();
+					if (j == columns) {
+						carsource.setNextRoad(l);
+						l.setNextRoad(intersections[i][j-1]);
+					}
+					else if (j == 0) {
+						intersections[i][j].setNextRoad(l, Orientation.EW);
+						l.setNextRoad(new Sink());
+					}
+					else {
+						intersections[i][j].setNextRoad(l, Orientation.EW);
+						l.setNextRoad(intersections[i][j-1]);
+					}
 
-				builder.addHorizontalRoad(l, i, j, eastToWest);
-				roads.add(l);
+					builder.addHorizontalRoad(l, i, j, eastToWest);
+					roads.add(l);
+				}
+			}
+			else {
+				for (int j=0; j<=columns; j++) {
+					CarAcceptor l = Data.makeRoad();
+					if (j == 0) {
+						carsource.setNextRoad(l);
+						l.setNextRoad(intersections[i][j]);
+					}
+					else if (j == columns) {
+						intersections[i][j-1].setNextRoad(l, Orientation.EW);
+						l.setNextRoad(new Sink());
+					}
+					else {
+						intersections[i][j-1].setNextRoad(l, Orientation.EW);
+						l.setNextRoad(intersections[i][j]);
+					}
+
+					builder.addHorizontalRoad(l, i, j, eastToWest);
+					roads.add(l);
+				}
 			}
 			if (_propertyBag.getTrafficPattern() == TrafficType.ALTERNATING) {
 				eastToWest = !eastToWest;
 			}
 		}
 
-		//		 Add Vertical Roads With Lights
+		//	Add Vertical Roads With Lights
 		boolean southToNorth = false;
 		for (int j=0; j<columns; j++) {
 			CarSource carsource = new CarSource(Orientation.NS);
-			for (int i=0; i<=rows; i++) {
-				CarAcceptor l = Data.makeRoad();
-				if (i == 0) {
-					carsource.setNextRoad(l);
-					l.setNextRoad(intersections[i][j]);	
-				}
-				else if (i == rows) {
-					intersections[i-1][j].setNextRoad(l, Orientation.NS);
-					l.setNextRoad(new Sink());
-				}
-				else {
-					intersections[i-1][j].setNextRoad(l, Orientation.NS);
-					l.setNextRoad(intersections[i][j]);
-				}
+			if (southToNorth) {
+				for (int i=rows; i>=0; i--) {
+					CarAcceptor l = Data.makeRoad();
+					if (i == rows) {
+						carsource.setNextRoad(l);
+						l.setNextRoad(intersections[i-1][j]);
+					}
+					else if (i == 0) {
+						intersections[i][j].setNextRoad(l, Orientation.NS);
+						l.setNextRoad(new Sink());
+					}
+					else {
+						intersections[i][j].setNextRoad(l, Orientation.NS);
+						l.setNextRoad(intersections[i-1][j]);
+					}
 
-				builder.addVerticalRoad(l, i, j, southToNorth);
-				roads.add(l);
+					builder.addVerticalRoad(l, i, j, southToNorth);
+					roads.add(l);
+				}
+			}
+			else {
+				for (int i=0; i<=rows; i++) {
+					CarAcceptor l = Data.makeRoad();
+					if (i == 0) {
+						carsource.setNextRoad(l);
+						l.setNextRoad(intersections[i][j]);	
+					}
+					else if (i == rows) {
+						intersections[i-1][j].setNextRoad(l, Orientation.NS);
+						l.setNextRoad(new Sink());
+					}
+					else {
+						intersections[i-1][j].setNextRoad(l, Orientation.NS);
+						l.setNextRoad(intersections[i][j]);
+					}
+
+					builder.addVerticalRoad(l, i, j, southToNorth);
+					roads.add(l);
+				}
 			}
 			if (_propertyBag.getTrafficPattern() == TrafficType.ALTERNATING) {
 				southToNorth = !southToNorth;
