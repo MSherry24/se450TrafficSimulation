@@ -1,6 +1,6 @@
 package model;
 
-import model.LightObj.LightState;
+import model.Data.LightState;
 
 public interface Light {
 	

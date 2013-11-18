@@ -3,6 +3,7 @@ package model;
 import properties.PropertyBag;
 import timeserver.TimeServer;
 
+import model.Data.LightState;
 import model.Data.Orientation;
 
 public class LightObj implements Agent, Light {
@@ -16,9 +17,7 @@ public class LightObj implements Agent, Light {
 	private Long _greenTimeEW;
 	private Long _yellowTimeEW;
 
-	public enum LightState {
-		NSGREEN, NSYELLOW, EWGREEN, EWYELLOW
-	}
+	
 
 	public LightObj() {
 		this._time = this._propertyBag.getTimeServer();

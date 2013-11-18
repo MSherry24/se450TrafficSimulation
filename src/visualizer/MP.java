@@ -1,4 +1,4 @@
-package model;
+package visualizer;
 
 public class MP {
 	  private MP() {}

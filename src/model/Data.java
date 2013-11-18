@@ -5,6 +5,10 @@ public class Data {
 	public enum Orientation {
 		NS, EW
 	}
+	
+	public enum LightState {
+		NSGREEN, NSYELLOW, EWGREEN, EWYELLOW
+	}
 
 	public Data() {
 		

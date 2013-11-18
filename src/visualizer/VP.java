@@ -1,6 +1,5 @@
 package visualizer;
 
-import model.MP;
 
 
 /**

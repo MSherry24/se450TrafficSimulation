@@ -12,15 +12,15 @@ public class PropertyBag {
 	
 	private TimeServer timeServer = new TimeServerLinked();
 
-	private Double timeStep = 1.0;
+	private Double timeStep = 0.5;
 	private Double runTime = 1000.0;
-	private Integer gridRow = 3;
+	private Integer gridRow = 2;
 	private Integer gridColumn = 3;
 	private TrafficType trafficPattern = TrafficType.ALTERNATING;
-	private Double carGenerationDelayMin = 20.0;
-	private Double carGenerationDelayMax = 30.0;
+	private Double carGenerationDelayMin = 5.0;
+	private Double carGenerationDelayMax = 10.0;
 	private Double roadSegmentLengthMin = 100.0;
-	private Double roadSegmentLengthMax = 1000.0;
+	private Double roadSegmentLengthMax = 200.0;
 	private Double intersectionLengthMin = 10.0;
 	private Double intersectionLengthMax = 15.0;
 	private Double carLengthMin = 10.0;

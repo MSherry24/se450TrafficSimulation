@@ -23,7 +23,7 @@ final class CarSourceObj implements Agent, CarSource {
 	}
 
 	public void run(double _time) {
-		Car c = new Car(this._orientation);
+		Car c = Data.makeCar(_orientation);
 		if (this._nextRoad == null) {
 			throw new NullPointerException("Next Road Was Not Set");
 		}

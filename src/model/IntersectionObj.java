@@ -6,9 +6,9 @@ import java.util.Set;
 import properties.PropertyBag;
 
 import model.Data.Orientation;
-import model.LightObj.LightState;
+import model.Data.LightState;
 
-final class IntersectionObj implements Intersection, RoadEnd {
+final class IntersectionObj implements RoadEnd {
 	private Set<Vehicle> _carsNS;
 	private Set<Vehicle> _carsEW;
 	private Double _endPosition;
