@@ -21,6 +21,8 @@ public class RoadTEST extends TestCase {
 	}
 
 	public void testConstructorAndAttributes() {
+		r1 = Data.makeRoad();
+		i1 = Data.makeIntersection();
 		Assert.assertNotNull(r1.getCars());
 		Assert.assertEquals(r1.getCars().size(), 0, Util.EPSILON);
 		Assert.assertTrue(r1.getEndPosition() <= propertyBag.getRoadSegmentLengthMax());
@@ -30,6 +32,9 @@ public class RoadTEST extends TestCase {
 	}
 
 	public void testCarAcceptAndRemove() {
+		r1 = Data.makeRoad();
+		i1 = Data.makeIntersection();
+		c1 = Data.makeCar(Data.Orientation.EW);
 		Assert.assertEquals(r1.getCars().size(), 0);
 		r1.accept(c1, 0.0);
 		Assert.assertEquals(r1.getCars().size(), 1);
@@ -44,6 +49,9 @@ public class RoadTEST extends TestCase {
 	}
 
 	public void testDistanceToObstacle() {	
+		r1 = Data.makeRoad();
+		i1 = Data.makeIntersection();
+		c1 = Data.makeCar(Data.Orientation.EW);
 		r1.setNextRoad(i1);
 		r1.accept(c1, r1.getEndPosition() / 2);
 		Assert.assertEquals(r1.getCars().size(), 1);

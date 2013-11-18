@@ -102,6 +102,7 @@ final class IntersectionObj implements RoadEnd {
 	public void setNextRoad(CarAcceptor nextRoad, Orientation orientation) {
 		if (orientation == Orientation.EW) {
 			this._nextRoadEW = nextRoad;
+			return;
 		}
 		this._nextRoadNS = nextRoad;
 	}
